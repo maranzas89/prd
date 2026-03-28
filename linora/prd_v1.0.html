@@ -109,7 +109,7 @@
   .version-bar { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 2rem; font-size: 0.85rem; }
 
   /* Mermaid */
-  .mermaid { background: var(--bg-card); border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+  .mermaid { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1rem 0; }
 
   /* Journey map */
   .journey-steps-wrapper { position: relative; }
@@ -799,94 +799,98 @@ const observer = new IntersectionObserver(entries => {
 
 document.querySelectorAll('section[id]').forEach(section => observer.observe(section));
 
+// Mermaid theme configs
+const darkMermaid = {
+  primaryColor: '#2a2a3e', primaryTextColor: '#e0e0e0', primaryBorderColor: '#555',
+  lineColor: '#888', secondaryColor: '#1e293b', tertiaryColor: '#1e1e2e',
+  background: '#0a0a0a', mainBkg: '#1e1e2e', nodeBorder: '#555', nodeTextColor: '#e0e0e0',
+  clusterBkg: '#141414', clusterBorder: '#444', titleColor: '#e0e0e0',
+  edgeLabelBackground: '#1a1a1a',
+  actorTextColor: '#e0e0e0', actorBkg: '#1e1e2e', actorBorder: '#555', actorLineColor: '#555',
+  signalColor: '#888', signalTextColor: '#d0d0d0',
+  labelBoxBkgColor: '#1a1a1a', labelBoxBorderColor: '#444', labelTextColor: '#d0d0d0',
+  loopTextColor: '#d0d0d0',
+  noteBkgColor: '#2a2a3e', noteTextColor: '#d0d0d0', noteBorderColor: '#555',
+  attributeBackgroundColorOdd: '#1a1a2a', attributeBackgroundColorEven: '#141420',
+  entityBorder: '#555', entityBkg: '#1a1a2a', entityTitleBkg: '#2a2a3e',
+  fontSize: '14px'
+};
+const lightMermaid = {
+  primaryColor: '#f0f4f8', primaryTextColor: '#1a1a1a', primaryBorderColor: '#d0d5dd',
+  lineColor: '#666', secondaryColor: '#e8edf2', tertiaryColor: '#f8fafc',
+  background: '#fff', mainBkg: '#f0f4f8', nodeBorder: '#d0d5dd', nodeTextColor: '#1a1a1a',
+  clusterBkg: '#f5f8ff', clusterBorder: '#ddd', titleColor: '#1a1a1a',
+  edgeLabelBackground: '#fff',
+  actorTextColor: '#1a1a1a', actorBkg: '#f0f4f8', actorBorder: '#d0d5dd', actorLineColor: '#ccc',
+  signalColor: '#666', signalTextColor: '#333',
+  labelBoxBkgColor: '#fff', labelBoxBorderColor: '#ddd', labelTextColor: '#333',
+  loopTextColor: '#333',
+  noteBkgColor: '#e8edf2', noteTextColor: '#333', noteBorderColor: '#d0d5dd',
+  attributeBackgroundColorOdd: '#f5f8ff', attributeBackgroundColorEven: '#fff',
+  entityBorder: '#d0d5dd', entityBkg: '#fff', entityTitleBkg: '#f0f4f8',
+  fontSize: '14px'
+};
+
+// Store original mermaid source for re-rendering
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.mermaid').forEach(function(el) {
+    if (!el.getAttribute('data-source')) {
+      el.setAttribute('data-source', el.textContent.trim());
+    }
+  });
+});
+
+function getIsDark(mode) {
+  if (mode === 'dark') return true;
+  if (mode === 'light') return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function renderMermaid(isDark) {
+  var vars = isDark ? darkMermaid : lightMermaid;
+  mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: vars });
+  document.querySelectorAll('.mermaid').forEach(function(el) {
+    var src = el.getAttribute('data-source');
+    if (src) {
+      el.removeAttribute('data-processed');
+      el.textContent = src;
+    }
+  });
+  mermaid.run();
+}
+
 // Theme toggle
 function setTheme(mode) {
-  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.theme-btn').forEach(function(b) { b.classList.remove('active'); });
   document.getElementById('t-' + mode).classList.add('active');
   document.documentElement.removeAttribute('data-theme');
   if (mode === 'light') document.documentElement.setAttribute('data-theme', 'light');
   else if (mode === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
   localStorage.setItem('prd-hub-theme', mode);
+  renderMermaid(getIsDark(mode));
 }
-// Init theme
-const savedTheme = localStorage.getItem('prd-hub-theme');
-if (savedTheme) { setTheme(savedTheme); } else { setTheme('auto'); }
 
-// Mermaid init — adapt to system theme
-const isDark = (savedTheme === 'dark') || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-mermaid.initialize({
-  startOnLoad: true,
-  theme: 'base',
-  themeVariables: isDark ? {
-    primaryColor: '#1e3a5f',
-    primaryTextColor: '#e0e0e0',
-    primaryBorderColor: '#4a90d9',
-    lineColor: '#888',
-    secondaryColor: '#1a2332',
-    tertiaryColor: '#0f0f0f',
-    background: '#0a0a0a',
-    mainBkg: '#1e3a5f',
-    nodeBorder: '#4a90d9',
-    nodeTextColor: '#e0e0e0',
-    clusterBkg: '#141414',
-    clusterBorder: '#444',
-    titleColor: '#e0e0e0',
-    edgeLabelBackground: '#1a1a1a',
-    actorTextColor: '#e0e0e0',
-    actorBkg: '#2a2a4e',
-    actorBorder: '#5577aa',
-    actorLineColor: '#888',
-    signalColor: '#d0d0d0',
-    signalTextColor: '#d0d0d0',
-    labelBoxBkgColor: '#1a1a1a',
-    labelBoxBorderColor: '#444',
-    labelTextColor: '#d0d0d0',
-    loopTextColor: '#d0d0d0',
-    noteBkgColor: '#2a2a3e',
-    noteTextColor: '#e0e0e0',
-    noteBorderColor: '#5577aa',
-    attributeBackgroundColorOdd: '#1a1a2a',
-    attributeBackgroundColorEven: '#141420',
-    entityBorder: '#5577aa',
-    entityBkg: '#1a1a2a',
-    entityTitleBkg: '#2a2a4e',
-    fontSize: '14px'
-  } : {
-    primaryColor: '#e8f0fe',
-    primaryTextColor: '#1a1a1a',
-    primaryBorderColor: '#93b4e8',
-    lineColor: '#bbb',
-    secondaryColor: '#f5f8ff',
-    tertiaryColor: '#fafafa',
-    background: '#f8f8f8',
-    mainBkg: '#e8f0fe',
-    nodeBorder: '#93b4e8',
-    nodeTextColor: '#1a1a1a',
-    clusterBkg: '#f5f8ff',
-    clusterBorder: '#ddd',
-    titleColor: '#1a1a1a',
-    edgeLabelBackground: '#f8f8f8',
-    actorTextColor: '#1a1a1a',
-    actorBkg: '#e8f0fe',
-    actorBorder: '#93b4e8',
-    actorLineColor: '#bbb',
-    signalColor: '#333',
-    signalTextColor: '#333',
-    labelBoxBkgColor: '#fff',
-    labelBoxBorderColor: '#ddd',
-    labelTextColor: '#1a1a1a',
-    loopTextColor: '#1a1a1a',
-    noteBkgColor: '#fef9e7',
-    noteTextColor: '#1a1a1a',
-    noteBorderColor: '#e0c97f',
-    attributeBackgroundColorOdd: '#f5f8ff',
-    attributeBackgroundColorEven: '#fff',
-    entityBorder: '#93b4e8',
-    entityBkg: '#fff',
-    entityTitleBkg: '#e8f0fe',
-    fontSize: '14px'
+// Init theme
+var savedTheme = localStorage.getItem('prd-hub-theme') || 'auto';
+var initIsDark = getIsDark(savedTheme);
+
+// First render with correct theme
+mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: initIsDark ? darkMermaid : lightMermaid });
+
+// Apply theme UI state after DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+  setTheme(savedTheme);
+});
+
+// Listen for system theme changes when in auto mode
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+  var current = localStorage.getItem('prd-hub-theme');
+  if (!current || current === 'auto') {
+    renderMermaid(window.matchMedia('(prefers-color-scheme: dark)').matches);
   }
 });
+
+
 </script>
 
 </body>
