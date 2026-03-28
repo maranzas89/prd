@@ -63,8 +63,8 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.3s, color 0.3s; }
-  code, .mono { font-family: 'JetBrains Mono', monospace; }
-  td.mono, td code { font-family: 'JetBrains Mono', monospace; color: inherit; background: none; padding: 0; border: none; font-size: inherit; line-height: inherit; display: inline; }
+  code { font-family: 'JetBrains Mono', ui-monospace, monospace; display: inline; padding: 0; margin: 0; background: none; border: none; font-size: inherit; color: inherit; }
+  td.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
   .container { max-width: 1280px; margin: 0 auto; padding: 2rem; }
 
   /* TOC sidebar */
@@ -135,8 +135,7 @@
   .journey-step:first-of-type { margin-top: 0.5rem; }
   .journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--journey-num-bg); color: var(--journey-num-text); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; flex-shrink: 0; position: relative; z-index: 1; }
 
-  /* Mono text in table cells */
-  td.mono, td code { color: var(--text) !important; }
+  /* removed — td.mono and td code now inherit naturally */
 
   /* Responsive */
   @media (max-width: 768px) {
