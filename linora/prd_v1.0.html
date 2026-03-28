@@ -88,7 +88,7 @@
   strong { color: var(--text); }
 
   /* Tables — rounded with zebra stripes */
-  table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.9rem; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.9rem; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); table-layout: auto; }
   th { background: var(--table-head); color: var(--table-head-text); text-align: left; padding: 12px 16px; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
   th + th { border-left: 1px solid var(--border); }
   td { padding: 12px 16px; color: var(--text-muted); border-bottom: 1px solid var(--border); }
@@ -136,7 +136,7 @@
   .journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--journey-num-bg); color: var(--journey-num-text); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; flex-shrink: 0; position: relative; z-index: 1; }
 
   /* Mono text in table cells */
-  td.mono, td code { color: var(--text) !important; }
+  td.mono, td code { color: var(--text) !important; border: none !important; background: none !important; }
 
   /* Responsive */
   @media (max-width: 768px) {
