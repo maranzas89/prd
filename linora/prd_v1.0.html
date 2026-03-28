@@ -10,14 +10,15 @@
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
   :root {
     color-scheme: light dark;
-    --bg: #f8f8f8; --bg-card: #fff; --bg-card-hover: #f0f0f0;
+    --bg: #fff; --bg-card: #fff; --bg-card-hover: #f9fafb;
     --text: #1a1a1a; --text-muted: #444; --text-dim: #666;
-    --code-bg: #f8f0f4; --code-text: #c7254e;
-    --placeholder-bg: #ebebeb;
+    --code-bg: #f3f4f6; --code-text: #374151;
+    --placeholder-bg: #f0f0f0;
+    --table-stripe: #f9fafb; --table-head: #f3f4f6;
     --accent: #2563eb; --accent-dim: #dbeafe;
     --border: #e0e0e0; --border-hover: #ccc;
     --success: #16a34a; --warning: #ca8a04; --error: #dc2626;
-    --toc-bg: #f0f0f0; --toc-active-bg: #dbeafe;
+    --toc-bg: #f9fafb; --toc-active-bg: #dbeafe;
     --tag-mvp-bg: #dbeafe; --tag-mvp-text: #1d4ed8;
     --tag-v2-bg: #dcfce7; --tag-v2-text: #16a34a;
     --tag-planned-bg: #fef3c7; --tag-planned-text: #b45309;
@@ -31,6 +32,7 @@
     --border: #222; --border-hover: #333;
     --success: #22c55e; --warning: #eab308; --error: #ef4444;
     --toc-bg: #0d0d0d; --toc-active-bg: #1e3a5f;
+    --table-stripe: #1a1a1a; --table-head: #1a1a1a;
     --tag-mvp-bg: #1e3a5f; --tag-mvp-text: #60a5fa;
     --tag-v2-bg: #1a3329; --tag-v2-text: #4ade80;
     --tag-planned-bg: #2d2316; --tag-planned-text: #fbbf24;
@@ -53,7 +55,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.3s, color 0.3s; }
   code, .mono { font-family: 'JetBrains Mono', monospace; color: var(--code-text); background: var(--code-bg); padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.85em; }
-  td code, td .mono { background: transparent; padding: 0; }
+  td code, td .mono { background: transparent; padding: 0; color: var(--text) !important; }
   .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 
   /* TOC sidebar */
@@ -77,9 +79,10 @@
 
   /* Tables */
   table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.9rem; }
-  th { background: var(--bg-card); color: var(--text-muted); text-align: left; padding: 0.75rem 1rem; border: 1px solid var(--border); font-weight: 500; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+  th { background: var(--table-head); color: var(--text-muted); text-align: left; padding: 0.75rem 1rem; border: 1px solid var(--border); font-weight: 500; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
   td { padding: 0.75rem 1rem; border: 1px solid var(--border); color: var(--text-muted); }
-  tr:hover td { background: var(--bg-card); }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  tr:hover td { background: var(--bg-card-hover); }
 
   /* Cards */
   .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
