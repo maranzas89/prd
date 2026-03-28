@@ -12,33 +12,48 @@
     color-scheme: light dark;
     --bg: #f8f8f8; --bg-card: #fff; --bg-card-hover: #f0f0f0;
     --text: #1a1a1a; --text-muted: #444; --text-dim: #666;
-    --placeholder-bg: #f0f0f0;
+    --code-bg: #f5f5f5; --code-text: #1a1a1a;
+    --placeholder-bg: #ebebeb;
     --accent: #2563eb; --accent-dim: #dbeafe;
     --border: #e0e0e0; --border-hover: #ccc;
     --success: #16a34a; --warning: #ca8a04; --error: #dc2626;
     --toc-bg: #f0f0f0; --toc-active-bg: #dbeafe;
+    --tag-mvp-bg: #dbeafe; --tag-mvp-text: #1d4ed8;
+    --tag-v2-bg: #dcfce7; --tag-v2-text: #16a34a;
+    --tag-planned-bg: #fef3c7; --tag-planned-text: #b45309;
   }
   html[data-theme="dark"] {
     --bg: #0a0a0a; --bg-card: #141414; --bg-card-hover: #1a1a1a;
     --text: #ededed; --text-muted: #aaa; --text-dim: #777;
+    --code-bg: #1a1a1a; --code-text: #ededed;
+    --placeholder-bg: #111;
     --accent: #3b82f6; --accent-dim: #1e3a5f;
     --border: #222; --border-hover: #333;
     --success: #22c55e; --warning: #eab308; --error: #ef4444;
-    --toc-bg: #0d0d0d; --toc-active-bg: #1e3a5f; --placeholder-bg: #111;
+    --toc-bg: #0d0d0d; --toc-active-bg: #1e3a5f;
+    --tag-mvp-bg: #1e3a5f; --tag-mvp-text: #60a5fa;
+    --tag-v2-bg: #1a3329; --tag-v2-text: #4ade80;
+    --tag-planned-bg: #2d2316; --tag-planned-text: #fbbf24;
   }
   @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) {
       --bg: #0a0a0a; --bg-card: #141414; --bg-card-hover: #1a1a1a;
       --text: #ededed; --text-muted: #aaa; --text-dim: #777;
+      --code-bg: #1a1a1a; --code-text: #ededed;
+      --placeholder-bg: #111;
       --accent: #3b82f6; --accent-dim: #1e3a5f;
       --border: #222; --border-hover: #333;
       --success: #22c55e; --warning: #eab308; --error: #ef4444;
-      --toc-bg: #0d0d0d; --toc-active-bg: #1e3a5f; --placeholder-bg: #111;
+      --toc-bg: #0d0d0d; --toc-active-bg: #1e3a5f;
+      --tag-mvp-bg: #1e3a5f; --tag-mvp-text: #60a5fa;
+      --tag-v2-bg: #1a3329; --tag-v2-text: #4ade80;
+      --tag-planned-bg: #2d2316; --tag-planned-text: #fbbf24;
     }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.3s, color 0.3s; }
-  code, .mono { font-family: 'JetBrains Mono', monospace; color: var(--text); }
+  code, .mono { font-family: 'JetBrains Mono', monospace; color: var(--code-text); background: var(--code-bg); padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.85em; }
+  td code, td .mono { background: transparent; padding: 0; }
   .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 
   /* TOC sidebar */
@@ -51,7 +66,7 @@
 
   /* Sections */
   section { margin-bottom: 3rem; scroll-margin-top: 2rem; }
-  h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.75rem; }
+  h1 { font-size: 3rem; font-weight: 800; margin-bottom: 12px; }
   h2 { font-size: 1.4rem; font-weight: 600; color: var(--accent); margin-bottom: 1.2rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
   h3 { font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 20px; }
   h4 { font-size: 0.95rem; font-weight: 500; color: var(--text-muted); margin-bottom: 20px; }
@@ -73,9 +88,9 @@
 
   /* Tags */
   .tag { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 500; }
-  .tag-mvp { background: #1e3a5f; color: #60a5fa; }
-  .tag-v2 { background: #1a3329; color: #4ade80; }
-  .tag-planned { background: #2d2316; color: #fbbf24; }
+  .tag-mvp { background: var(--tag-mvp-bg); color: var(--tag-mvp-text); }
+  .tag-v2 { background: var(--tag-v2-bg); color: var(--tag-v2-text); }
+  .tag-planned { background: var(--tag-planned-bg); color: var(--tag-planned-text); }
 
   /* Feature module */
   .feature-module { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; }
@@ -99,6 +114,14 @@
   .journey-step { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.75rem; position: relative; }
   .journey-step:first-of-type { margin-top: 0.5rem; }
   .journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-dim); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; flex-shrink: 0; position: relative; z-index: 1; }
+
+  /* Universal: title → content spacing */
+  h2 + table, h2 + ul, h2 + ol, h2 + div, h2 + pre, h2 + figure,
+  h3 + table, h3 + ul, h3 + ol, h3 + div, h3 + pre, h3 + figure,
+  h4 + table, h4 + ul, h4 + ol, h4 + div, h4 + pre, h4 + figure { margin-top: 0; }
+
+  /* Mono text in table cells — ensure readable in both modes */
+  td.mono, td code { color: var(--text); }
 
   /* Responsive */
   @media (max-width: 768px) {
@@ -273,7 +296,7 @@
     </table>
   </div>
 
-  <h3 style="margin-top:2rem;margin-bottom:20px;" data-zh="用户旅程图 (User Journey Map)" data-en="User Journey Map">用户旅程图 (User Journey Map)</h3>
+  <h3 data-zh="用户旅程图 (User Journey Map)" data-en="User Journey Map">用户旅程图 (User Journey Map)</h3>
 
   <div class="journey-steps-wrapper">
   <div class="journey-step">
