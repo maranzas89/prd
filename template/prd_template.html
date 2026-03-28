@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Linora PRD v1.0</title>
+<title>{{PROJECT_NAME}} PRD v1.0</title>
 <!-- Tailwind removed: custom CSS handles all styling -->
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
@@ -136,30 +136,110 @@
   .journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--journey-num-bg); color: var(--journey-num-text); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; flex-shrink: 0; position: relative; z-index: 1; }
 
 
-  /* Responsive */
+  /* PRD Hub link in sidebar */
+  .prd-hub-link { display: block; padding: 0.4rem 0.75rem; font-size: 0.8rem; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .prd-hub-link:hover { color: var(--text); }
+  .toc-divider { height: 1px; background: var(--border); margin: 0.75rem 0; }
+
+  /* Hamburger button — hidden on desktop */
+  .hamburger { display: none; position: fixed; top: 16px; left: 16px; z-index: 1000; width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
+  .hamburger svg { width: 22px; height: 22px; color: var(--text-muted); }
+  .toc-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 149; }
+  .drawer-controls { display: none; }
+  .toc .toc-close { display: none; }
+  .mermaid-hint { display: none; }
+  .table-scroll-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1.5rem; border-radius: 8px; border: 1px solid var(--border); }
+  .table-scroll-wrapper table { margin-bottom: 0; border: none; border-radius: 0; }
+
+  /* ===== MOBILE ===== */
   @media (max-width: 768px) {
-    .toc { display: none; }
+    .hamburger { display: flex; }
+    .toc-overlay.show { display: block; }
+    .top-controls { display: none !important; }
+    .toc { display: block; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 150; width: 280px; background: var(--toc-bg); }
+    .toc.open { transform: translateX(0); }
+    .toc .toc-close { display: flex; position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-size: 1.4rem; line-height: 1; border-radius: 6px; align-items: center; justify-content: center; }
+    .toc .toc-close:hover { background: var(--bg-card-hover); }
+    .drawer-controls { display: flex; flex-direction: column; gap: 0.5rem; padding: 0 0.5rem; }
+    .drawer-controls .toggle-group { display: flex; width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .drawer-controls .theme-btn,
+    .drawer-controls .lang-btn { flex: 1; padding: 0.5rem; font-size: 0.8rem; text-align: center; cursor: pointer; border: none; background: transparent; color: var(--text-muted); transition: all 0.2s; }
+    .drawer-controls .theme-btn.active,
+    .drawer-controls .lang-btn.active { background: var(--accent); color: white; }
     .main-content { margin-left: 0; }
+    .container { padding: 16px; padding-top: 72px; }
+    h1 { font-size: 2rem; text-align: center; }
+    h1 + p[style] { text-align: center !important; }
+    h2 { font-size: 1.25rem; margin-top: 28px; }
+    h3 { font-size: 1.1rem; }
+    p, li { font-size: 0.9rem; line-height: 1.7; }
+    section { margin-bottom: 48px; scroll-margin-top: 80px; }
+    .version-bar { flex-direction: column; gap: 0.4rem; align-items: flex-start; }
+    table.mobile-stack { display: block !important; white-space: normal !important; overflow: visible !important; min-width: 0 !important; padding: 4px 16px; }
+    table.mobile-stack tr { display: flex; flex-direction: column; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    table.mobile-stack tr:last-child { border-bottom: none; }
+    table.mobile-stack tr:hover td { background: transparent; }
+    table.mobile-stack th { background: none !important; border: none !important; color: var(--text-dim); font-size: 0.7rem; padding: 0 0 2px 0; text-transform: uppercase; white-space: normal; letter-spacing: 0.05em; }
+    table.mobile-stack td { border: none !important; padding: 0; font-size: 0.9rem; white-space: normal; color: var(--text-muted); }
+    table.mobile-stack th + th, table.mobile-stack td + td { border-left: none !important; }
+    table.mobile-stack-cards { display: block !important; border: none !important; white-space: normal !important; overflow: visible !important; min-width: 0 !important; }
+    table.mobile-stack-cards tr:first-child { display: none !important; }
+    table.mobile-stack-cards tr { display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; }
+    table.mobile-stack-cards tr:hover td { background: transparent; }
+    table.mobile-stack-cards td { display: block; border: none !important; padding: 3px 0; white-space: normal; font-size: 0.9rem; }
+    table.mobile-stack-cards td::before { content: attr(data-label); display: block; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 1px; }
+    table.mobile-stack-cards td + td { border-left: none !important; }
+    .table-scroll-wrapper table { white-space: nowrap; min-width: 600px; }
+    .card { padding: 1rem; }
+    .feature-module { padding: 1rem; }
+    [style*="grid-template-columns"] { display: flex !important; flex-direction: column !important; gap: 1rem !important; }
+    .mermaid { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 12px; }
+    .mermaid svg { min-width: 500px; }
+    .mermaid-hint { display: block; font-size: 0.75rem; color: var(--text-dim); text-align: center; margin-top: -0.5rem; margin-bottom: 1rem; }
+    .placeholder-box { height: 200px; }
+    .journey-step { gap: 0.75rem; }
+    .journey-step .card { flex: 1; width: 100%; }
+    .tag { font-size: 0.7rem; padding: 2px 6px; white-space: nowrap; }
   }
 </style>
 </head>
 <body>
 
-<!-- Top Controls: Theme + Language -->
+<!-- Hamburger Button (mobile only) -->
+<button class="hamburger" id="hamburger" aria-label="Open menu" onclick="toggleToc()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="toc-overlay" id="toc-overlay" onclick="closeToc()"></div>
+
+<!-- Desktop Top Controls -->
 <div class="top-controls">
   <div class="toggle-group">
-    <button class="theme-btn" onclick="setTheme('light')" id="t-light">Light</button>
-    <button class="theme-btn active" onclick="setTheme('auto')" id="t-auto">Auto</button>
-    <button class="theme-btn" onclick="setTheme('dark')" id="t-dark">Dark</button>
+    <button class="theme-btn" data-mode="light" onclick="setTheme('light')">Light</button>
+    <button class="theme-btn active" data-mode="auto" onclick="setTheme('auto')">Auto</button>
+    <button class="theme-btn" data-mode="dark" onclick="setTheme('dark')">Dark</button>
   </div>
   <div class="toggle-group">
-    <button class="lang-btn" onclick="setLang('zh')" id="btn-zh">中文</button>
-    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
+    <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+    <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
   </div>
 </div>
 
-<!-- TOC Sidebar -->
+<!-- TOC Sidebar / Mobile Drawer -->
 <nav class="toc" id="toc">
+  <button class="toc-close" onclick="closeToc()" aria-label="Close menu">&times;</button>
+  <a href="../" class="prd-hub-link">← PRD Hub</a>
+  <div class="drawer-controls">
+    <div class="toggle-group">
+      <button class="theme-btn" data-mode="light" onclick="setTheme('light')">Light</button>
+      <button class="theme-btn active" data-mode="auto" onclick="setTheme('auto')">Auto</button>
+      <button class="theme-btn" data-mode="dark" onclick="setTheme('dark')">Dark</button>
+    </div>
+    <div class="toggle-group">
+      <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+      <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+  <div class="toc-divider"></div>
   <h3 data-zh="目录导航" data-en="Contents">目录导航</h3>
   <a href="#info" data-zh="项目信息" data-en="Project Info">项目信息</a>
   <a href="#background" data-zh="一、需求背景" data-en="1. Background">一、需求背景</a>
@@ -787,36 +867,33 @@ sequenceDiagram
 </div>
 
 <script>
-// Language toggle
-let currentLang = 'zh';
-
+// === Language toggle ===
+var currentLang = 'en';
 function setLang(lang) {
   currentLang = lang;
-  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-  document.getElementById('btn-' + lang).classList.add('active');
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
   document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-  localStorage.setItem('prd-hub-lang', lang);
-
-  document.querySelectorAll('[data-zh][data-en]').forEach(el => {
+  document.querySelectorAll('[data-zh][data-en]').forEach(function(el) {
     el.textContent = el.getAttribute('data-' + lang);
   });
 }
 
-// TOC active state
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
+// === TOC active state ===
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
     if (entry.isIntersecting) {
-      document.querySelectorAll('.toc a').forEach(a => a.classList.remove('active'));
-      const link = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+      document.querySelectorAll('.toc a[href^="#"]').forEach(function(a) { a.classList.remove('active'); });
+      var link = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
       if (link) link.classList.add('active');
     }
   });
 }, { rootMargin: '-20% 0px -60% 0px' });
+document.querySelectorAll('section[id]').forEach(function(s) { observer.observe(s); });
 
-document.querySelectorAll('section[id]').forEach(section => observer.observe(section));
-
-// Mermaid theme configs
-const darkMermaid = {
+// === Mermaid theme configs ===
+var darkMermaid = {
   primaryColor: '#1e293b', primaryTextColor: '#e2e8f0', primaryBorderColor: '#475569',
   lineColor: '#64748b', secondaryColor: '#1e293b', tertiaryColor: '#0f172a',
   background: '#0f172a', mainBkg: '#1e293b', nodeBorder: '#475569', nodeTextColor: '#e2e8f0',
@@ -831,7 +908,7 @@ const darkMermaid = {
   entityBorder: '#475569', entityBkg: '#1a2236', entityTitleBkg: '#1e293b',
   fontSize: '14px'
 };
-const lightMermaid = {
+var lightMermaid = {
   primaryColor: '#e2e8f0', primaryTextColor: '#1e293b', primaryBorderColor: '#cbd5e1',
   lineColor: '#94a3b8', secondaryColor: '#f1f5f9', tertiaryColor: '#f8fafc',
   background: '#f8fafc', mainBkg: '#e2e8f0', nodeBorder: '#cbd5e1', nodeTextColor: '#1e293b',
@@ -847,12 +924,9 @@ const lightMermaid = {
   fontSize: '14px'
 };
 
-// Store original mermaid source for re-rendering
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.mermaid').forEach(function(el) {
-    if (!el.getAttribute('data-source')) {
-      el.setAttribute('data-source', el.textContent.trim());
-    }
+    if (!el.getAttribute('data-source')) el.setAttribute('data-source', el.textContent.trim());
   });
 });
 
@@ -867,49 +941,106 @@ function renderMermaid(isDark) {
   mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: vars });
   document.querySelectorAll('.mermaid').forEach(function(el) {
     var src = el.getAttribute('data-source');
-    if (src) {
-      el.removeAttribute('data-processed');
-      el.textContent = src;
-    }
+    if (src) { el.removeAttribute('data-processed'); el.textContent = src; }
   });
   mermaid.run();
 }
 
-// Theme toggle
+// === Theme toggle (syncs desktop + drawer buttons) ===
 function setTheme(mode) {
-  document.querySelectorAll('.theme-btn').forEach(function(b) { b.classList.remove('active'); });
-  document.getElementById('t-' + mode).classList.add('active');
+  document.querySelectorAll('.theme-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
   document.documentElement.removeAttribute('data-theme');
   if (mode === 'light') document.documentElement.setAttribute('data-theme', 'light');
   else if (mode === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-  localStorage.setItem('prd-hub-theme', mode);
   renderMermaid(getIsDark(mode));
 }
 
-// Init theme
-var savedTheme = localStorage.getItem('prd-hub-theme') || 'auto';
-var initIsDark = getIsDark(savedTheme);
+// === Init ===
+var savedTheme = 'auto';
+mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: getIsDark(savedTheme) ? darkMermaid : lightMermaid });
 
-// First render with correct theme
-mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: initIsDark ? darkMermaid : lightMermaid });
-
-// Apply theme + language after DOM ready
 document.addEventListener('DOMContentLoaded', function() {
   setTheme(savedTheme);
-  // Default language: English (user can switch to Chinese)
-  var savedLang = localStorage.getItem('prd-hub-lang') || 'en';
-  setLang(savedLang);
+  setLang('en');
+  setupMobileTables();
+  setTimeout(addMermaidHints, 1200);
 });
 
-// Listen for system theme changes when in auto mode
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-  var current = localStorage.getItem('prd-hub-theme');
-  if (!current || current === 'auto') {
-    renderMermaid(window.matchMedia('(prefers-color-scheme: dark)').matches);
-  }
+  renderMermaid(window.matchMedia('(prefers-color-scheme: dark)').matches);
 });
 
+// === Hamburger drawer ===
+function toggleToc() {
+  document.getElementById('toc').classList.toggle('open');
+  document.getElementById('toc-overlay').classList.toggle('show');
+}
+function closeToc() {
+  document.getElementById('toc').classList.remove('open');
+  document.getElementById('toc-overlay').classList.remove('show');
+}
+document.querySelectorAll('.toc a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', closeToc);
+});
 
+// === Mobile table adaptation ===
+function setupMobileTables() {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('table').forEach(function(table) {
+    if (table.dataset.mobileProcessed) return;
+    table.dataset.mobileProcessed = 'true';
+    var rows = Array.from(table.querySelectorAll('tr'));
+    if (rows.length === 0) return;
+    var colCount = rows[0].children.length;
+    var isKV = (colCount === 2);
+    if (isKV) {
+      for (var i = 0; i < rows.length; i++) {
+        if (rows[i].children.length !== 2 || rows[i].children[0].tagName !== 'TH') { isKV = false; break; }
+      }
+    }
+    if (isKV) { table.classList.add('mobile-stack'); return; }
+    var headerRow = null, dataRows = [];
+    rows.forEach(function(tr) {
+      var ths = tr.querySelectorAll('th');
+      if (ths.length === tr.children.length && ths.length > 0 && !headerRow) headerRow = tr;
+      else dataRows.push(tr);
+    });
+    if (headerRow && colCount >= 3 && dataRows.length <= 2) {
+      var headers = [];
+      headerRow.querySelectorAll('th').forEach(function(th) { headers.push(th.textContent.trim()); });
+      dataRows.forEach(function(tr) {
+        Array.from(tr.querySelectorAll('td')).forEach(function(td, i) {
+          if (headers[i]) td.setAttribute('data-label', headers[i]);
+        });
+      });
+      table.classList.add('mobile-stack-cards');
+      return;
+    }
+    if (colCount >= 3 && !table.closest('.table-scroll-wrapper')) {
+      var wrapper = document.createElement('div');
+      wrapper.className = 'table-scroll-wrapper';
+      table.parentNode.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+      table.style.minWidth = '600px';
+    }
+  });
+}
+
+// === Mermaid scroll hints ===
+function addMermaidHints() {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('.mermaid').forEach(function(el) {
+    if (el.nextElementSibling && el.nextElementSibling.classList.contains('mermaid-hint')) return;
+    var hint = document.createElement('p');
+    hint.className = 'mermaid-hint';
+    hint.setAttribute('data-zh', '← 左右滑动查看完整流程图');
+    hint.setAttribute('data-en', '← Swipe to view full diagram');
+    hint.textContent = currentLang === 'zh' ? '← 左右滑动查看完整流程图' : '← Swipe to view full diagram';
+    el.parentNode.insertBefore(hint, el.nextSibling);
+  });
+}
 </script>
 
 </body>
