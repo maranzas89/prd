@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -150,12 +150,12 @@
 <div class="top-controls">
   <div class="toggle-group">
     <button class="theme-btn" onclick="setTheme('light')" id="t-light">Light</button>
-    <button class="theme-btn" onclick="setTheme('auto')" id="t-auto">Auto</button>
-    <button class="theme-btn active" onclick="setTheme('dark')" id="t-dark">Dark</button>
+    <button class="theme-btn active" onclick="setTheme('auto')" id="t-auto">Auto</button>
+    <button class="theme-btn" onclick="setTheme('dark')" id="t-dark">Dark</button>
   </div>
   <div class="toggle-group">
-    <button class="lang-btn active" onclick="setLang('zh')" id="btn-zh">中文</button>
-    <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+    <button class="lang-btn" onclick="setLang('zh')" id="btn-zh">中文</button>
+    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
   </div>
 </div>
 
@@ -188,7 +188,7 @@
     </select>
   </div>
   <div style="color:var(--text-dim);font-size:0.8rem;">
-    <span data-zh="最后更新：{{DATE}}" data-en="Last updated: {{DATE}}">最后更新：{{DATE}}</span>
+    <span data-zh="最后更新：2026-03-27" data-en="Last updated: 2026-03-27">最后更新：2026-03-27</span>
   </div>
 </div>
 
@@ -215,13 +215,13 @@
     </tr>
     <tr>
       <td>v1.0</td><td>2026-03-27</td>
-      <td data-zh="{{CHANGELOG_ZH}}" data-en="{{CHANGELOG_EN}}">{{CHANGELOG_ZH}}</td>
+      <td data-zh="初始版本：完整 PRD 产出" data-en="Initial version: full PRD output">初始版本：完整 PRD 产出</td>
       <td>{{PRODUCT_OWNER}}</td>
     </tr>
   </table>
 </section>
 
-<!-- Section 1: Background — REPLACE with your project background -->
+<!-- Section 1: Background -->
 <section id="background">
   <h2 data-zh="一、需求背景" data-en="1. Background & Problem">一、需求背景</h2>
 
@@ -381,7 +381,7 @@
   </div>
 </section>
 
-<!-- Section 4: Feature List — REPLACE with your features -->
+<!-- Section 4: Feature List -->
 <section id="features">
   <h2 data-zh="四、功能清单" data-en="4. Feature List">四、功能清单</h2>
   <table>
@@ -408,7 +408,7 @@
   </table>
 </section>
 
-<!-- Section 5: Detailed Design — REPLACE with your modules -->
+<!-- Section 5: Detailed Design -->
 <section id="detail">
   <h2 data-zh="五、详细方案" data-en="5. Detailed Design">五、详细方案</h2>
 
@@ -611,7 +611,7 @@ erDiagram
   </div>
 </section>
 
-<!-- Section 6: Flowcharts — REPLACE with your flows -->
+<!-- Section 6: Flowcharts -->
 <section id="flow">
   <h2 data-zh="六、业务流程图" data-en="6. Business Flowcharts">六、业务流程图</h2>
 
@@ -666,7 +666,7 @@ sequenceDiagram
   </div>
 </section>
 
-<!-- Section 7: Edge Cases — REPLACE with your edge cases -->
+<!-- Section 7: Edge Cases -->
 <section id="edge">
   <h2 data-zh="七、异常与边界处理" data-en="7. Edge Cases & Error Handling">七、异常与边界处理</h2>
   <table>
@@ -713,7 +713,7 @@ sequenceDiagram
   </table>
 </section>
 
-<!-- Section 8: Analytics — REPLACE with your events -->
+<!-- Section 8: Analytics -->
 <section id="tracking">
   <h2 data-zh="八、数据追踪与埋点" data-en="8. Analytics & Tracking">八、数据追踪与埋点</h2>
   <table>
@@ -734,7 +734,7 @@ sequenceDiagram
   <p style="color:var(--text-dim);font-size:0.85rem;" data-zh="注：当前使用 Vercel Analytics，后续可接入 GA4 或自定义事件系统。" data-en="Note: Currently using Vercel Analytics. GA4 or custom event system can be integrated later.">注：当前使用 Vercel Analytics，后续可接入 GA4 或自定义事件系统。</p>
 </section>
 
-<!-- Section 9: Roadmap — REPLACE with your roadmap -->
+<!-- Section 9: Roadmap -->
 <section id="roadmap">
   <h2 data-zh="九、未来演进规划" data-en="9. Roadmap">九、未来演进规划</h2>
   <table>
@@ -766,7 +766,7 @@ sequenceDiagram
   </table>
 </section>
 
-<!-- Section 10: Appendix — REPLACE with your appendix -->
+<!-- Section 10: Appendix -->
 <section id="annex">
   <h2 data-zh="十、附件" data-en="10. Appendix">十、附件</h2>
   <div class="card">
@@ -796,6 +796,7 @@ function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
   document.getElementById('btn-' + lang).classList.add('active');
   document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  localStorage.setItem('prd-hub-lang', lang);
 
   document.querySelectorAll('[data-zh][data-en]').forEach(el => {
     el.textContent = el.getAttribute('data-' + lang);
@@ -893,9 +894,12 @@ var initIsDark = getIsDark(savedTheme);
 // First render with correct theme
 mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: initIsDark ? darkMermaid : lightMermaid });
 
-// Apply theme UI state after DOM ready
+// Apply theme + language after DOM ready
 document.addEventListener('DOMContentLoaded', function() {
   setTheme(savedTheme);
+  // Default language: English (user can switch to Chinese)
+  var savedLang = localStorage.getItem('prd-hub-lang') || 'en';
+  setLang(savedLang);
 });
 
 // Listen for system theme changes when in auto mode
