@@ -63,7 +63,7 @@
   <h1>PRD Hub</h1>
   <p class="subtitle">Wen's project documentation center</p>
 
-  <a class="project-card" href="linora/prd_v1.0.html">
+  <a class="project-card" data-path="linora/prd_v1.0.html">
     <div class="project-name">Linora</div>
     <div class="project-desc">AI-powered intelligent job search platform</div>
     <div class="project-meta">
@@ -72,7 +72,7 @@
     </div>
   </a>
 
-  <a class="project-card" href="prism/prd_v1.0.html">
+  <a class="project-card" data-path="prism/prd_v1.0.html">
     <div class="project-name">PRISM</div>
     <div class="project-desc">Cybersecurity SOC platform — MITRE ATT&CK concept prototype</div>
     <div class="project-meta">
@@ -109,6 +109,11 @@ else {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   setTheme('auto');
 }
+// Set card hrefs based on current base path
+var base = window.location.pathname.replace(/\/+$/, '');
+document.querySelectorAll('[data-path]').forEach(function(el) {
+  el.href = base + '/' + el.getAttribute('data-path');
+});
 </script>
 </body>
 </html>
