@@ -495,7 +495,6 @@ function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
   document.getElementById('btn-' + lang).classList.add('active');
   document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-  localStorage.setItem('prd-hub-lang', lang);
   document.querySelectorAll('[data-zh][data-en]').forEach(el => {
     el.textContent = el.getAttribute('data-' + lang);
   });
@@ -579,8 +578,7 @@ mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: initIsDar
 
 document.addEventListener('DOMContentLoaded', function() {
   setTheme(savedTheme);
-  var savedLang = localStorage.getItem('prd-hub-lang') || 'en';
-  setLang(savedLang);
+  setLang('en');
 });
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
