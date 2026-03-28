@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRD Hub — Wen's Projects</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+  :root { color-scheme: light dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #f8f8f8; color: #1a1a1a; min-height: 100vh; padding: 3rem 2rem; }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .subtitle { color: #666; margin-bottom: 2.5rem; }
+  .project-card { display: block; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; text-decoration: none; color: #1a1a1a; transition: all 0.2s; }
+  .project-card:hover { border-color: #3b82f6; background: #f0f7ff; }
+  .project-name { font-weight: 600; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .project-desc { color: #666; font-size: 0.85rem; }
+  .project-meta { display: flex; gap: 1rem; margin-top: 0.5rem; font-size: 0.75rem; color: #999; }
+  .tag { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.7rem; }
+  .tag-active { background: #dbeafe; color: #2563eb; }
+  .tag-planned { background: #fef3c7; color: #d97706; }
+  .empty { color: #999; font-size: 0.9rem; margin-top: 1rem; }
+  .theme-toggle { position: fixed; top: 1rem; right: 1rem; z-index: 100; display: flex; background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden; }
+  .theme-btn { padding: 0.4rem 0.75rem; font-size: 0.8rem; cursor: pointer; border: none; background: transparent; color: #666; transition: all 0.2s; }
+  .theme-btn.active { background: #2563eb; color: white; }
+
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) body { background: #0a0a0a; color: #ededed; }
+    html:not([data-theme="light"]) .subtitle { color: #888; }
+    html:not([data-theme="light"]) .project-card { background: #141414; border-color: #222; color: #ededed; }
+    html:not([data-theme="light"]) .project-card:hover { border-color: #3b82f6; background: #1a1a1a; }
+    html:not([data-theme="light"]) .project-desc { color: #888; }
+    html:not([data-theme="light"]) .project-meta { color: #555; }
+    html:not([data-theme="light"]) .tag-active { background: #1e3a5f; color: #60a5fa; }
+    html:not([data-theme="light"]) .tag-planned { background: #2d2316; color: #fbbf24; }
+    html:not([data-theme="light"]) .empty { color: #555; }
+    html:not([data-theme="light"]) .theme-toggle { background: #141414; border-color: #222; }
+    html:not([data-theme="light"]) .theme-btn { color: #888; }
+    html:not([data-theme="light"]) .theme-btn.active { background: #3b82f6; color: white; }
+  }
+  html[data-theme="dark"] body { background: #0a0a0a; color: #ededed; }
+  html[data-theme="dark"] .subtitle { color: #888; }
+  html[data-theme="dark"] .project-card { background: #141414; border-color: #222; color: #ededed; }
+  html[data-theme="dark"] .project-card:hover { border-color: #3b82f6; background: #1a1a1a; }
+  html[data-theme="dark"] .project-desc { color: #888; }
+  html[data-theme="dark"] .project-meta { color: #555; }
+  html[data-theme="dark"] .tag-active { background: #1e3a5f; color: #60a5fa; }
+  html[data-theme="dark"] .tag-planned { background: #2d2316; color: #fbbf24; }
+  html[data-theme="dark"] .empty { color: #555; }
+  html[data-theme="dark"] .theme-toggle { background: #141414; border-color: #222; }
+  html[data-theme="dark"] .theme-btn { color: #888; }
+  html[data-theme="dark"] .theme-btn.active { background: #3b82f6; color: white; }
+</style>
+</head>
+<body>
+<div class="theme-toggle">
+  <button class="theme-btn" onclick="setTheme('light')" id="t-light">Light</button>
+  <button class="theme-btn" onclick="setTheme('auto')" id="t-auto">Auto</button>
+  <button class="theme-btn active" onclick="setTheme('dark')" id="t-dark">Dark</button>
+</div>
+<div class="container">
+  <h1>PRD Hub</h1>
+  <p class="subtitle">Wen's project documentation center</p>
+
+  <a class="project-card" href="/linora/prd_v1.0.html">
+    <div class="project-name">Linora</div>
+    <div class="project-desc">AI-powered intelligent job search platform</div>
+    <div class="project-meta">
+      <span class="tag tag-active">v1.0 MVP</span>
+      <span>Updated: 2026-03-27</span>
+    </div>
+  </a>
+
+  <!-- Future projects go here -->
+  <!--
+  <a class="project-card" href="/portfolio/prd_v1.0.html">
+    <div class="project-name">Portfolio</div>
+    <div class="project-desc">Personal portfolio site</div>
+    <div class="project-meta">
+      <span class="tag tag-planned">Planned</span>
+    </div>
+  </a>
+  -->
+
+</div>
+<script>
+function setTheme(mode) {
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('t-' + mode).classList.add('active');
+  document.documentElement.removeAttribute('data-theme');
+  if (mode === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  else if (mode === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  localStorage.setItem('prd-hub-theme', mode);
+}
+// Init from saved preference
+const saved = localStorage.getItem('prd-hub-theme');
+if (saved) setTheme(saved);
+else {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme('auto');
+}
+</script>
+</body>
+</html>
