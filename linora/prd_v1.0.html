@@ -65,7 +65,7 @@
   body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.3s, color 0.3s; }
   code, .mono { font-family: 'JetBrains Mono', monospace; color: var(--code-text); background: transparent; padding: 0; font-size: 0.85em; }
   td code, td .mono { color: var(--text) !important; }
-  .container { max-width: 960px; margin: 0 auto; padding: 2rem; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 2rem; }
 
   /* TOC sidebar */
   .toc { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: var(--toc-bg); border-right: 1px solid var(--border); padding: 1.5rem 1rem; overflow-y: auto; z-index: 50; }
@@ -122,7 +122,8 @@
   .version-bar { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 2rem; font-size: 0.85rem; }
 
   /* Mermaid diagram canvas */
-  .mermaid { background: transparent; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 1rem 0; }
+  .mermaid { background: transparent; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 1rem 0; width: 100%; }
+  .mermaid svg { width: 100% !important; max-width: 100%; height: auto !important; }
 
   /* Placeholder (prototype slot) */
   .placeholder-box { background: var(--placeholder-bg); border: 2px dashed var(--placeholder-border); border-radius: 8px; height: 400px; display: flex; align-items: center; justify-content: center; color: var(--text-dim); }
