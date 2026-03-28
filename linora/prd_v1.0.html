@@ -1014,10 +1014,12 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', fun
 function toggleToc() {
   document.getElementById('toc').classList.toggle('open');
   document.getElementById('toc-overlay').classList.toggle('show');
+  document.getElementById('hamburger').style.display = 'none';
 }
 function closeToc() {
   document.getElementById('toc').classList.remove('open');
   document.getElementById('toc-overlay').classList.remove('show');
+  if (window.innerWidth <= 768) document.getElementById('hamburger').style.display = 'flex';
 }
 document.querySelectorAll('.toc a[href^="#"]').forEach(function(a) {
   a.addEventListener('click', closeToc);
