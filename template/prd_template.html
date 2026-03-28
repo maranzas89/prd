@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{PROJECT_NAME}} PRD v1.0</title>
+<title>Linora PRD v1.0</title>
 <!-- Tailwind removed: custom CSS handles all styling -->
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
@@ -28,7 +28,7 @@
   }
   /* ===== DARK MODE ===== */
   html[data-theme="dark"] {
-    --bg: #0f172a; --bg-card: #1a2236; --bg-card-hover: #1e293b;
+    --bg: #0f172a; --bg-card: transparent; --bg-card-hover: #1e293b;
     --text: #e2e8f0; --text-muted: #cbd5e1; --text-dim: #94a3b8;
     --code-bg: #1e293b; --code-text: #7dd3fc;
     --placeholder-bg: #0f172a; --placeholder-border: #334155;
@@ -45,7 +45,7 @@
   }
   @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) {
-      --bg: #0f172a; --bg-card: #1a2236; --bg-card-hover: #1e293b;
+      --bg: #0f172a; --bg-card: transparent; --bg-card-hover: #1e293b;
       --text: #e2e8f0; --text-muted: #cbd5e1; --text-dim: #94a3b8;
       --code-bg: #1e293b; --code-text: #7dd3fc;
       --placeholder-bg: #0f172a; --placeholder-border: #334155;
@@ -63,9 +63,9 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.3s, color 0.3s; }
-  code, .mono { font-family: 'JetBrains Mono', monospace; color: var(--code-text); background: var(--code-bg); padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.85em; }
-  td code, td .mono { background: transparent; padding: 0; color: var(--text) !important; }
-  .container { max-width: 960px; margin: 0 auto; padding: 2rem; }
+  code { font-family: 'JetBrains Mono', ui-monospace, monospace; display: inline; padding: 0; margin: 0; background: none; border: none; font-size: inherit; color: inherit; }
+  td.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 2rem; }
 
   /* TOC sidebar */
   .toc { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: var(--toc-bg); border-right: 1px solid var(--border); padding: 1.5rem 1rem; overflow-y: auto; z-index: 50; }
@@ -89,12 +89,12 @@
 
   /* Tables — rounded with zebra stripes */
   table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.9rem; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
-  th { background: var(--table-head); color: var(--table-head-text); text-align: left; padding: 0.75rem 1rem; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+  th { background: var(--table-head); color: var(--table-head-text); text-align: left; padding: 12px 16px; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
   th + th { border-left: 1px solid var(--border); }
-  td { padding: 0.75rem 1rem; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+  td { padding: 12px 16px; color: var(--text-muted); border-bottom: 1px solid var(--border); }
   td + td { border-left: 1px solid var(--border); }
   tr:last-child td { border-bottom: none; }
-  tr:nth-child(even) td { background: var(--table-stripe); }
+  /* zebra stripes removed */
   tr:hover td { background: var(--bg-card-hover); }
 
   /* Cards */
@@ -110,7 +110,7 @@
 
   /* Feature module */
   .feature-module { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; }
-  .feature-module h3 { color: var(--accent); }
+  .feature-module h3 { color: var(--accent); margin-top: 0 !important; margin-bottom: 20px !important; }
 
   /* Top-right controls */
   .top-controls { position: fixed; top: 1rem; right: 1rem; z-index: 100; display: flex; gap: 0.5rem; }
@@ -122,7 +122,8 @@
   .version-bar { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 2rem; font-size: 0.85rem; }
 
   /* Mermaid diagram canvas */
-  .mermaid { background: var(--mermaid-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 1rem 0; }
+  .mermaid { background: transparent; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 1rem 0; width: 100%; }
+  .mermaid svg { width: 100% !important; max-width: 100%; height: auto !important; }
 
   /* Placeholder (prototype slot) */
   .placeholder-box { background: var(--placeholder-bg); border: 2px dashed var(--placeholder-border); border-radius: 8px; height: 400px; display: flex; align-items: center; justify-content: center; color: var(--text-dim); }
@@ -134,8 +135,6 @@
   .journey-step:first-of-type { margin-top: 0.5rem; }
   .journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--journey-num-bg); color: var(--journey-num-text); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; flex-shrink: 0; position: relative; z-index: 1; }
 
-  /* Mono text in table cells */
-  td.mono, td code { color: var(--text) !important; }
 
   /* Responsive */
   @media (max-width: 768px) {
@@ -194,13 +193,13 @@
 
 <!-- Section: Project Info -->
 <section id="info">
-  <h1>{{PROJECT_NAME}}</h1>
-  <p style="font-size:1.15rem;color:var(--text-muted);margin-top:0.25rem;" data-zh="{{PROJECT_TAGLINE_ZH}}" data-en="{{PROJECT_TAGLINE_EN}}">{{PROJECT_TAGLINE_ZH}}</p>
+  <h1>Linora</h1>
+  <p style="font-size:1.15rem;color:var(--text-muted);margin-top:0.25rem;" data-zh="AI 驱动的智能求职平台" data-en="AI-Powered Intelligent Job Search Platform">AI 驱动的智能求职平台</p>
 
   <table style="margin-top:1.5rem;">
-    <tr><th data-zh="项目名称" data-en="Project Name">项目名称</th><td>{{PROJECT_NAME}}</td></tr>
-    <tr><th data-zh="产品负责人" data-en="Product Owner">产品负责人</th><td>{{PRODUCT_OWNER}}</td></tr>
-    <tr><th data-zh="技术栈" data-en="Tech Stack">技术栈</th><td>{{TECH_STACK}}</td></tr>
+    <tr><th data-zh="项目名称" data-en="Project Name">项目名称</th><td>Linora</td></tr>
+    <tr><th data-zh="产品负责人" data-en="Product Owner">产品负责人</th><td>Wen Liu</td></tr>
+    <tr><th data-zh="技术栈" data-en="Tech Stack">技术栈</th><td>Next.js 16 + React 19 + Supabase + Claude API + Tailwind v4</td></tr>
     <tr><th data-zh="当前版本" data-en="Current Version">当前版本</th><td>v1.0 MVP</td></tr>
     <tr><th data-zh="文档状态" data-en="Doc Status">文档状态</th><td><span class="tag tag-mvp">MVP</span></td></tr>
   </table>
@@ -216,7 +215,7 @@
     <tr>
       <td>v1.0</td><td>2026-03-27</td>
       <td data-zh="初始版本：完整 PRD 产出" data-en="Initial version: full PRD output">初始版本：完整 PRD 产出</td>
-      <td>{{PRODUCT_OWNER}}</td>
+      <td>Wen Liu</td>
     </tr>
   </table>
 </section>
