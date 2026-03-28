@@ -11,7 +11,8 @@
   :root {
     color-scheme: light dark;
     --bg: #f8f8f8; --bg-card: #fff; --bg-card-hover: #f0f0f0;
-    --text: #1a1a1a; --text-muted: #666; --text-dim: #999;
+    --text: #1a1a1a; --text-muted: #444; --text-dim: #666;
+    --placeholder-bg: #f0f0f0;
     --accent: #2563eb; --accent-dim: #dbeafe;
     --border: #e0e0e0; --border-hover: #ccc;
     --success: #16a34a; --warning: #ca8a04; --error: #dc2626;
@@ -19,41 +20,41 @@
   }
   html[data-theme="dark"] {
     --bg: #0a0a0a; --bg-card: #141414; --bg-card-hover: #1a1a1a;
-    --text: #ededed; --text-muted: #888; --text-dim: #555;
+    --text: #ededed; --text-muted: #aaa; --text-dim: #777;
     --accent: #3b82f6; --accent-dim: #1e3a5f;
     --border: #222; --border-hover: #333;
     --success: #22c55e; --warning: #eab308; --error: #ef4444;
-    --toc-bg: #0d0d0d; --toc-active-bg: #1e3a5f;
+    --toc-bg: #0d0d0d; --toc-active-bg: #1e3a5f; --placeholder-bg: #111;
   }
   @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) {
       --bg: #0a0a0a; --bg-card: #141414; --bg-card-hover: #1a1a1a;
-      --text: #ededed; --text-muted: #888; --text-dim: #555;
+      --text: #ededed; --text-muted: #aaa; --text-dim: #777;
       --accent: #3b82f6; --accent-dim: #1e3a5f;
       --border: #222; --border-hover: #333;
       --success: #22c55e; --warning: #eab308; --error: #ef4444;
-      --toc-bg: #0d0d0d; --toc-active-bg: #1e3a5f;
+      --toc-bg: #0d0d0d; --toc-active-bg: #1e3a5f; --placeholder-bg: #111;
     }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.3s, color 0.3s; }
-  code, .mono { font-family: 'JetBrains Mono', monospace; }
+  code, .mono { font-family: 'JetBrains Mono', monospace; color: var(--text); }
   .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 
   /* TOC sidebar */
   .toc { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: var(--toc-bg); border-right: 1px solid var(--border); padding: 1.5rem 1rem; overflow-y: auto; z-index: 50; }
   .toc h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem; }
-  .toc a { display: block; padding: 0.35rem 0.75rem; font-size: 0.8rem; color: var(--text-muted); text-decoration: none; border-radius: 4px; transition: all 0.2s; margin-bottom: 2px; }
+  .toc a { display: block; padding: 0.4rem 0.75rem; font-size: 0.9rem; color: var(--text-muted); text-decoration: none; border-radius: 4px; transition: all 0.2s; margin-bottom: 3px; }
   .toc a:hover { color: var(--text); background: var(--bg-card); }
   .toc a.active { color: var(--accent); background: var(--toc-active-bg); }
   .main-content { margin-left: 260px; }
 
   /* Sections */
   section { margin-bottom: 3rem; scroll-margin-top: 2rem; }
-  h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+  h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.75rem; }
   h2 { font-size: 1.4rem; font-weight: 600; color: var(--accent); margin-bottom: 1.2rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-  h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.8rem; }
-  h4 { font-size: 0.95rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.5rem; }
+  h3 { font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 20px; }
+  h4 { font-size: 0.95rem; font-weight: 500; color: var(--text-muted); margin-bottom: 20px; }
   p { margin-bottom: 1rem; color: var(--text-muted); }
   ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; }
   li { margin-bottom: 0.4rem; color: var(--text-muted); }
@@ -68,6 +69,7 @@
   /* Cards */
   .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
   .card:hover { border-color: var(--border-hover); }
+  .card h3 { margin-top: 0; }
 
   /* Tags */
   .tag { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 500; }
@@ -92,8 +94,11 @@
   .mermaid { background: var(--bg-card); border-radius: 8px; padding: 1rem; margin: 1rem 0; }
 
   /* Journey map */
-  .journey-step { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
-  .journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-dim); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; flex-shrink: 0; }
+  .journey-steps-wrapper { position: relative; }
+  .journey-steps-wrapper::before { content: ''; position: absolute; left: 15px; top: 16px; bottom: 16px; width: 2px; background: var(--border); z-index: 0; }
+  .journey-step { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.75rem; position: relative; }
+  .journey-step:first-of-type { margin-top: 0.5rem; }
+  .journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-dim); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; flex-shrink: 0; position: relative; z-index: 1; }
 
   /* Responsive */
   @media (max-width: 768px) {
@@ -153,7 +158,7 @@
 <!-- Section: Project Info -->
 <section id="info">
   <h1>Linora</h1>
-  <p style="font-size:1.1rem;color:var(--text-muted);" data-zh="AI 驱动的智能求职平台" data-en="AI-Powered Intelligent Job Search Platform">AI 驱动的智能求职平台</p>
+  <p style="font-size:1.15rem;color:var(--text-muted);margin-top:0.25rem;" data-zh="AI 驱动的智能求职平台" data-en="AI-Powered Intelligent Job Search Platform">AI 驱动的智能求职平台</p>
 
   <table style="margin-top:1.5rem;">
     <tr><th data-zh="项目名称" data-en="Project Name">项目名称</th><td>Linora</td></tr>
@@ -268,8 +273,9 @@
     </table>
   </div>
 
-  <h3 style="margin-top:2rem;" data-zh="用户旅程图 (User Journey Map)" data-en="User Journey Map">用户旅程图 (User Journey Map)</h3>
+  <h3 style="margin-top:2rem;margin-bottom:20px;" data-zh="用户旅程图 (User Journey Map)" data-en="User Journey Map">用户旅程图 (User Journey Map)</h3>
 
+  <div class="journey-steps-wrapper">
   <div class="journey-step">
     <div class="journey-num">1</div>
     <div class="card" style="flex:1;">
@@ -334,6 +340,7 @@
         <tr><th data-zh="痛点" data-en="Pain Point">痛点</th><td data-zh="Jobs/Track/Inbox 尚未上线（v2 规划）" data-en="Jobs/Track/Inbox not yet live (planned for v2)">Jobs/Track/Inbox 尚未上线（v2 规划）</td></tr>
       </table>
     </div>
+  </div>
   </div>
 </section>
 
@@ -402,7 +409,7 @@ flowchart TD
       </div>
       <div>
         <h4 data-zh="原型切片" data-en="Prototype Slice">原型切片</h4>
-        <div style="background:#111;border:1px solid var(--border);border-radius:8px;height:400px;display:flex;align-items:center;justify-content:center;color:var(--text-dim);">
+        <div style="background:var(--placeholder-bg);border:1px solid var(--border);border-radius:8px;height:400px;display:flex;align-items:center;justify-content:center;color:var(--text-dim);">
           <span data-zh="待原型确认后嵌入" data-en="Prototype embed pending">待原型确认后嵌入</span>
         </div>
       </div>
@@ -794,16 +801,68 @@ mermaid.initialize({
     primaryTextColor: '#ededed',
     primaryBorderColor: '#3b82f6',
     lineColor: '#555',
-    secondaryColor: '#141414',
+    secondaryColor: '#1a2332',
     tertiaryColor: '#0a0a0a',
+    background: '#0a0a0a',
+    mainBkg: '#1e3a5f',
+    nodeBorder: '#3b82f6',
+    clusterBkg: '#141414',
+    clusterBorder: '#333',
+    titleColor: '#ededed',
+    edgeLabelBackground: '#141414',
+    nodeTextColor: '#ededed',
+    actorTextColor: '#ededed',
+    actorBkg: '#1e3a5f',
+    actorBorder: '#3b82f6',
+    actorLineColor: '#555',
+    signalColor: '#ededed',
+    signalTextColor: '#ededed',
+    labelBoxBkgColor: '#141414',
+    labelBoxBorderColor: '#333',
+    labelTextColor: '#ededed',
+    loopTextColor: '#ededed',
+    noteBkgColor: '#1a2332',
+    noteTextColor: '#ededed',
+    noteBorderColor: '#3b82f6',
+    attributeBackgroundColorOdd: '#141414',
+    attributeBackgroundColorEven: '#1a1a1a',
+    entityBorder: '#3b82f6',
+    entityBkg: '#141414',
+    entityTitleBkg: '#1e3a5f',
     fontSize: '14px'
   } : {
-    primaryColor: '#dbeafe',
+    primaryColor: '#e8f0fe',
     primaryTextColor: '#1a1a1a',
-    primaryBorderColor: '#2563eb',
-    lineColor: '#ccc',
-    secondaryColor: '#f0f7ff',
-    tertiaryColor: '#f8f8f8',
+    primaryBorderColor: '#93b4e8',
+    lineColor: '#bbb',
+    secondaryColor: '#f5f8ff',
+    tertiaryColor: '#fafafa',
+    background: '#f8f8f8',
+    mainBkg: '#e8f0fe',
+    nodeBorder: '#93b4e8',
+    clusterBkg: '#f5f8ff',
+    clusterBorder: '#ddd',
+    titleColor: '#1a1a1a',
+    edgeLabelBackground: '#f8f8f8',
+    nodeTextColor: '#1a1a1a',
+    actorTextColor: '#1a1a1a',
+    actorBkg: '#e8f0fe',
+    actorBorder: '#93b4e8',
+    actorLineColor: '#bbb',
+    signalColor: '#333',
+    signalTextColor: '#1a1a1a',
+    labelBoxBkgColor: '#fff',
+    labelBoxBorderColor: '#ddd',
+    labelTextColor: '#1a1a1a',
+    loopTextColor: '#1a1a1a',
+    noteBkgColor: '#fef9e7',
+    noteTextColor: '#1a1a1a',
+    noteBorderColor: '#e0c97f',
+    attributeBackgroundColorOdd: '#f5f8ff',
+    attributeBackgroundColorEven: '#fff',
+    entityBorder: '#93b4e8',
+    entityBkg: '#fff',
+    entityTitleBkg: '#e8f0fe',
     fontSize: '14px'
   }
 });
