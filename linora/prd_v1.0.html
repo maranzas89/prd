@@ -142,9 +142,9 @@
   /* Diagram modal */
   .diagram-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 2rem; }
   .diagram-modal.open { display: flex; }
-  .diagram-modal-content { background: var(--bg); border: none; border-radius: 12px; padding: 2rem; max-width: 98vw; max-height: 95vh; overflow: auto; position: relative; width: 98vw; }
-  .diagram-modal-content .mermaid { border: none; }
-  .diagram-modal-content .mermaid svg { width: 100% !important; max-width: 100%; height: auto !important; }
+  .diagram-modal-content { background: var(--bg); border: none; border-radius: 12px; padding: 2rem; max-width: 95vw; max-height: 95vh; overflow: auto; position: relative; }
+  .diagram-modal-content .mermaid { border: none; display: flex; justify-content: center; }
+  .diagram-modal-content .mermaid svg { height: auto !important; transform: scale(1.5); transform-origin: top center; margin-bottom: 4rem; }
   .diagram-modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; z-index: 1; padding: 4px 8px; border-radius: 4px; }
   .diagram-modal-close:hover { color: var(--text); background: var(--bg-card-hover); }
 
