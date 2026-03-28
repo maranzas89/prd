@@ -935,13 +935,16 @@ function openDiagramModal(id) {
   var body = document.getElementById(id + '-modal-body');
   var src = document.getElementById(id + '-src');
   if (modal && body && src) {
-    body.replaceChildren(src.cloneNode(true));
-    body.querySelector('.mermaid').removeAttribute('data-processed');
-    body.querySelector('.mermaid').removeAttribute('id');
+    var source = src.getAttribute('data-source');
+    if (!source) return;
+    var div = document.createElement('div');
+    div.className = 'mermaid';
+    div.textContent = source;
+    body.replaceChildren(div);
     var savedTheme = localStorage.getItem('prd-hub-theme') || 'auto';
     var vars = getIsDark(savedTheme) ? darkMermaid : lightMermaid;
     mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: vars });
-    mermaid.run({ nodes: body.querySelectorAll('.mermaid') });
+    mermaid.run({ nodes: [div] });
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
