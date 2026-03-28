@@ -568,11 +568,11 @@ function setTheme(mode) {
   document.documentElement.removeAttribute('data-theme');
   if (mode === 'light') document.documentElement.setAttribute('data-theme', 'light');
   else if (mode === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-  localStorage.setItem('prd-hub-theme', mode);
+
   renderMermaid(getIsDark(mode));
 }
 
-var savedTheme = localStorage.getItem('prd-hub-theme') || 'auto';
+var savedTheme = 'auto';
 var initIsDark = getIsDark(savedTheme);
 mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: initIsDark ? darkMermaid : lightMermaid });
 
@@ -582,7 +582,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-  var current = localStorage.getItem('prd-hub-theme');
+  var current = 'auto';
   if (!current || current === 'auto') renderMermaid(window.matchMedia('(prefers-color-scheme: dark)').matches);
 });
 </script>

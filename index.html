@@ -100,15 +100,9 @@ function setTheme(mode) {
   document.documentElement.removeAttribute('data-theme');
   if (mode === 'light') document.documentElement.setAttribute('data-theme', 'light');
   else if (mode === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-  localStorage.setItem('prd-hub-theme', mode);
 }
-// Init from saved preference
-const saved = localStorage.getItem('prd-hub-theme');
-if (saved) setTheme(saved);
-else {
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  setTheme('auto');
-}
+// Always default to auto (follows system)
+setTheme('auto');
 // Set card hrefs based on current base path
 var base = window.location.pathname.replace(/\/+$/, '');
 document.querySelectorAll('[data-path]').forEach(function(el) {

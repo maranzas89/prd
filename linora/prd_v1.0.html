@@ -881,12 +881,11 @@ function setTheme(mode) {
   document.documentElement.removeAttribute('data-theme');
   if (mode === 'light') document.documentElement.setAttribute('data-theme', 'light');
   else if (mode === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-  localStorage.setItem('prd-hub-theme', mode);
   renderMermaid(getIsDark(mode));
 }
 
 // Init theme
-var savedTheme = localStorage.getItem('prd-hub-theme') || 'auto';
+var savedTheme = 'auto';
 var initIsDark = getIsDark(savedTheme);
 
 // First render with correct theme
@@ -901,7 +900,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Listen for system theme changes when in auto mode
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-  var current = localStorage.getItem('prd-hub-theme');
+  var current = 'auto';
   if (!current || current === 'auto') {
     renderMermaid(window.matchMedia('(prefers-color-scheme: dark)').matches);
   }
