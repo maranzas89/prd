@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Linora PRD v1.0</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<!-- Tailwind removed: custom CSS handles all styling -->
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -12,7 +12,7 @@
     color-scheme: light dark;
     --bg: #f8f8f8; --bg-card: #fff; --bg-card-hover: #f0f0f0;
     --text: #1a1a1a; --text-muted: #444; --text-dim: #666;
-    --code-bg: #f5f5f5; --code-text: #1a1a1a;
+    --code-bg: #f8f0f4; --code-text: #c7254e;
     --placeholder-bg: #ebebeb;
     --accent: #2563eb; --accent-dim: #dbeafe;
     --border: #e0e0e0; --border-hover: #ccc;
@@ -66,10 +66,10 @@
 
   /* Sections */
   section { margin-bottom: 3rem; scroll-margin-top: 2rem; }
-  h1 { font-size: 3rem; font-weight: 800; margin-bottom: 12px; }
-  h2 { font-size: 1.4rem; font-weight: 600; color: var(--accent); margin-bottom: 1.2rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-  h3 { font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 20px; }
-  h4 { font-size: 0.95rem; font-weight: 500; color: var(--text-muted); margin-bottom: 20px; }
+  h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px !important; }
+  h2 { font-size: 1.4rem; font-weight: 600; color: var(--accent); margin-bottom: 20px !important; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 20px !important; }
+  h4 { font-size: 0.95rem; font-weight: 500; color: var(--text-muted); margin-bottom: 20px !important; }
   p { margin-bottom: 1rem; color: var(--text-muted); }
   ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; }
   li { margin-bottom: 0.4rem; color: var(--text-muted); }
@@ -115,13 +115,8 @@
   .journey-step:first-of-type { margin-top: 0.5rem; }
   .journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-dim); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; flex-shrink: 0; position: relative; z-index: 1; }
 
-  /* Universal: title → content spacing */
-  h2 + table, h2 + ul, h2 + ol, h2 + div, h2 + pre, h2 + figure,
-  h3 + table, h3 + ul, h3 + ol, h3 + div, h3 + pre, h3 + figure,
-  h4 + table, h4 + ul, h4 + ol, h4 + div, h4 + pre, h4 + figure { margin-top: 0; }
-
   /* Mono text in table cells — ensure readable in both modes */
-  td.mono, td code { color: var(--text); }
+  td.mono, td code { color: var(--text) !important; }
 
   /* Responsive */
   @media (max-width: 768px) {
@@ -818,40 +813,40 @@ if (savedTheme) { setTheme(savedTheme); } else { setTheme('auto'); }
 const isDark = (savedTheme === 'dark') || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
 mermaid.initialize({
   startOnLoad: true,
-  theme: isDark ? 'dark' : 'default',
+  theme: 'base',
   themeVariables: isDark ? {
     primaryColor: '#1e3a5f',
-    primaryTextColor: '#ededed',
-    primaryBorderColor: '#3b82f6',
-    lineColor: '#555',
+    primaryTextColor: '#e0e0e0',
+    primaryBorderColor: '#4a90d9',
+    lineColor: '#888',
     secondaryColor: '#1a2332',
-    tertiaryColor: '#0a0a0a',
+    tertiaryColor: '#0f0f0f',
     background: '#0a0a0a',
     mainBkg: '#1e3a5f',
-    nodeBorder: '#3b82f6',
+    nodeBorder: '#4a90d9',
+    nodeTextColor: '#e0e0e0',
     clusterBkg: '#141414',
-    clusterBorder: '#333',
-    titleColor: '#ededed',
-    edgeLabelBackground: '#141414',
-    nodeTextColor: '#ededed',
-    actorTextColor: '#ededed',
-    actorBkg: '#1e3a5f',
-    actorBorder: '#3b82f6',
-    actorLineColor: '#555',
-    signalColor: '#ededed',
-    signalTextColor: '#ededed',
-    labelBoxBkgColor: '#141414',
-    labelBoxBorderColor: '#333',
-    labelTextColor: '#ededed',
-    loopTextColor: '#ededed',
-    noteBkgColor: '#1a2332',
-    noteTextColor: '#ededed',
-    noteBorderColor: '#3b82f6',
-    attributeBackgroundColorOdd: '#141414',
-    attributeBackgroundColorEven: '#1a1a1a',
-    entityBorder: '#3b82f6',
-    entityBkg: '#141414',
-    entityTitleBkg: '#1e3a5f',
+    clusterBorder: '#444',
+    titleColor: '#e0e0e0',
+    edgeLabelBackground: '#1a1a1a',
+    actorTextColor: '#e0e0e0',
+    actorBkg: '#2a2a4e',
+    actorBorder: '#5577aa',
+    actorLineColor: '#888',
+    signalColor: '#d0d0d0',
+    signalTextColor: '#d0d0d0',
+    labelBoxBkgColor: '#1a1a1a',
+    labelBoxBorderColor: '#444',
+    labelTextColor: '#d0d0d0',
+    loopTextColor: '#d0d0d0',
+    noteBkgColor: '#2a2a3e',
+    noteTextColor: '#e0e0e0',
+    noteBorderColor: '#5577aa',
+    attributeBackgroundColorOdd: '#1a1a2a',
+    attributeBackgroundColorEven: '#141420',
+    entityBorder: '#5577aa',
+    entityBkg: '#1a1a2a',
+    entityTitleBkg: '#2a2a4e',
     fontSize: '14px'
   } : {
     primaryColor: '#e8f0fe',
@@ -863,17 +858,17 @@ mermaid.initialize({
     background: '#f8f8f8',
     mainBkg: '#e8f0fe',
     nodeBorder: '#93b4e8',
+    nodeTextColor: '#1a1a1a',
     clusterBkg: '#f5f8ff',
     clusterBorder: '#ddd',
     titleColor: '#1a1a1a',
     edgeLabelBackground: '#f8f8f8',
-    nodeTextColor: '#1a1a1a',
     actorTextColor: '#1a1a1a',
     actorBkg: '#e8f0fe',
     actorBorder: '#93b4e8',
     actorLineColor: '#bbb',
     signalColor: '#333',
-    signalTextColor: '#1a1a1a',
+    signalTextColor: '#333',
     labelBoxBkgColor: '#fff',
     labelBoxBorderColor: '#ddd',
     labelTextColor: '#1a1a1a',
