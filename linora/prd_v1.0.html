@@ -135,18 +135,6 @@
   .journey-step:first-of-type { margin-top: 0.5rem; }
   .journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--journey-num-bg); color: var(--journey-num-text); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; flex-shrink: 0; position: relative; z-index: 1; }
 
-  /* Zoomable diagram */
-  .diagram-zoomable { cursor: zoom-in; transition: transform 0.2s ease; }
-  .diagram-zoomable:hover { transform: scale(1.02); }
-
-  /* Diagram modal */
-  .diagram-modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 2rem; }
-  .diagram-modal.open { display: flex; }
-  .diagram-modal-content { background: var(--bg); border: none; border-radius: 12px; padding: 3rem; width: 90vw; height: 85vh; overflow: auto; position: relative; }
-  .diagram-modal-content .mermaid { border: none; min-width: 1200px; padding: 2rem; }
-  .diagram-modal-content .mermaid svg { width: 100% !important; height: auto !important; }
-  .diagram-modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; z-index: 1; padding: 4px 8px; border-radius: 4px; }
-  .diagram-modal-close:hover { color: var(--text); background: var(--bg-card-hover); }
 
   /* Responsive */
   @media (max-width: 768px) {
@@ -557,8 +545,7 @@ flowchart TD
   <!-- Module: Database -->
   <div class="feature-module">
     <h3 data-zh="5.5 数据库架构" data-en="5.5 Database Schema">5.5 数据库架构</h3>
-    <div class="diagram-zoomable" onclick="openDiagramModal('er-diagram')" title="Click to enlarge">
-    <div class="mermaid" id="er-diagram-src">
+    <div class="mermaid">
 erDiagram
   profiles ||--o{ experiences : has
   profiles ||--o{ education : has
@@ -619,16 +606,7 @@ erDiagram
     jsonb parsed_content
   }
     </div>
-    </div>
     <p data-zh="所有表均启用 Row Level Security (RLS)，用户只能读写自己的数据。" data-en="All tables have Row Level Security (RLS) enabled — users can only read/write their own data.">所有表均启用 Row Level Security (RLS)，用户只能读写自己的数据。</p>
-
-    <!-- ER Diagram Modal -->
-    <div class="diagram-modal" id="er-diagram-modal" onclick="closeDiagramModal(event, 'er-diagram')">
-      <div class="diagram-modal-content" onclick="event.stopPropagation()">
-        <button class="diagram-modal-close" onclick="closeDiagramModal(event, 'er-diagram')">&times;</button>
-        <div id="er-diagram-modal-body"></div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -931,41 +909,6 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', fun
   }
 });
 
-// Diagram modal
-function openDiagramModal(id) {
-  var modal = document.getElementById(id + '-modal');
-  var body = document.getElementById(id + '-modal-body');
-  var src = document.getElementById(id + '-src');
-  if (modal && body && src) {
-    var source = src.getAttribute('data-source');
-    if (!source) return;
-    var div = document.createElement('div');
-    div.className = 'mermaid';
-    div.textContent = source;
-    body.replaceChildren(div);
-    var savedTheme = localStorage.getItem('prd-hub-theme') || 'auto';
-    var vars = getIsDark(savedTheme) ? darkMermaid : lightMermaid;
-    mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: vars });
-    mermaid.run({ nodes: [div] });
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-}
-function closeDiagramModal(e, id) {
-  var modal = document.getElementById(id + '-modal');
-  if (modal) {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.diagram-modal.open').forEach(function(m) {
-      m.classList.remove('open');
-      document.body.style.overflow = '';
-    });
-  }
-});
 
 </script>
 
