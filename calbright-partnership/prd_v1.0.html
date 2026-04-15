@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calbright Partnership PRD v1.0</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  /* ===== LIGHT MODE (default) ===== */
+  :root {
+    color-scheme: light dark;
+    --bg: #fff; --bg-card: #fff; --bg-card-hover: #f9fafb;
+    --text: #1a1a1a; --text-muted: #475569; --text-dim: #94a3b8;
+    --code-bg: #f1f5f9; --code-text: #334155;
+    --placeholder-bg: #f8fafc; --placeholder-border: #d1d5db;
+    --table-stripe: #f9fafb; --table-head: #f3f4f6; --table-head-text: #64748b;
+    --accent: #2563eb; --accent-dim: #dbeafe;
+    --border: #e5e7eb; --border-hover: #d1d5db;
+    --success: #16a34a; --warning: #ca8a04; --error: #dc2626;
+    --toc-bg: #f9fafb; --toc-active-bg: #dbeafe; --toc-text: #64748b; --toc-active-text: #2563eb;
+    --tag-mvp-bg: #dcfce7; --tag-mvp-text: #166534;
+    --tag-v2-bg: #dbeafe; --tag-v2-text: #1e40af;
+    --tag-planned-bg: #fef3c7; --tag-planned-text: #78350f;
+    --mermaid-bg: #f8fafc;
+    --journey-num-bg: #3b82f6; --journey-num-text: #fff;
+  }
+  /* ===== DARK MODE ===== */
+  html[data-theme="dark"] {
+    --bg: #0f172a; --bg-card: transparent; --bg-card-hover: #1e293b;
+    --text: #e2e8f0; --text-muted: #cbd5e1; --text-dim: #94a3b8;
+    --code-bg: #1e293b; --code-text: #7dd3fc;
+    --placeholder-bg: #0f172a; --placeholder-border: #334155;
+    --table-stripe: #1a2236; --table-head: #1e293b; --table-head-text: #94a3b8;
+    --accent: #3b82f6; --accent-dim: #1e3a5f;
+    --border: #1e293b; --border-hover: #334155;
+    --success: #22c55e; --warning: #eab308; --error: #ef4444;
+    --toc-bg: #0f172a; --toc-active-bg: #1e3a5f; --toc-text: #64748b; --toc-active-text: #93c5fd;
+    --tag-mvp-bg: #166534; --tag-mvp-text: #86efac;
+    --tag-v2-bg: #1e40af; --tag-v2-text: #93c5fd;
+    --tag-planned-bg: #78350f; --tag-planned-text: #fcd34d;
+    --mermaid-bg: #0f172a;
+    --journey-num-bg: #3b82f6; --journey-num-text: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) {
+      --bg: #0f172a; --bg-card: transparent; --bg-card-hover: #1e293b;
+      --text: #e2e8f0; --text-muted: #cbd5e1; --text-dim: #94a3b8;
+      --code-bg: #1e293b; --code-text: #7dd3fc;
+      --placeholder-bg: #0f172a; --placeholder-border: #334155;
+      --table-stripe: #1a2236; --table-head: #1e293b; --table-head-text: #94a3b8;
+      --accent: #3b82f6; --accent-dim: #1e3a5f;
+      --border: #1e293b; --border-hover: #334155;
+      --success: #22c55e; --warning: #eab308; --error: #ef4444;
+      --toc-bg: #0f172a; --toc-active-bg: #1e3a5f; --toc-text: #64748b; --toc-active-text: #93c5fd;
+      --tag-mvp-bg: #166534; --tag-mvp-text: #86efac;
+      --tag-v2-bg: #1e40af; --tag-v2-text: #93c5fd;
+      --tag-planned-bg: #78350f; --tag-planned-text: #fcd34d;
+      --mermaid-bg: #0f172a;
+      --journey-num-bg: #3b82f6; --journey-num-text: #fff;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.3s, color 0.3s; }
+  code { font-family: 'JetBrains Mono', ui-monospace, monospace; display: inline; padding: 0; margin: 0; background: none; border: none; font-size: inherit; color: inherit; }
+  td.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 2rem; }
+
+  /* TOC sidebar */
+  .toc { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: var(--toc-bg); border-right: 1px solid var(--border); padding: 1.5rem 1rem; overflow-y: auto; z-index: 50; }
+  .toc h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: 1rem; }
+  .toc a { display: block; padding: 0.4rem 0.75rem; font-size: 0.9rem; color: var(--toc-text); text-decoration: none; border-left: 2px solid transparent; border-radius: 0 4px 4px 0; transition: all 0.2s; margin-bottom: 3px; }
+  .toc a:hover { color: var(--text); background: var(--bg-card-hover); }
+  .toc a.active { color: var(--toc-active-text); background: var(--toc-active-bg); border-left-color: var(--accent); font-weight: 500; }
+  .main-content { margin-left: 260px; }
+
+  /* Sections */
+  section { margin-bottom: 64px; scroll-margin-top: 2rem; }
+  h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px !important; }
+  h2 { font-size: 1.4rem; font-weight: 600; color: var(--accent); margin-top: 40px; margin-bottom: 20px !important; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  h2:first-child { margin-top: 0; }
+  h3 { font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 20px !important; }
+  h4 { font-size: 0.95rem; font-weight: 500; color: var(--text-muted); margin-bottom: 20px !important; }
+  p { margin-bottom: 1rem; color: var(--text-muted); }
+  ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  li { margin-bottom: 0.4rem; color: var(--text-muted); }
+  strong { color: var(--text); }
+
+  /* Tables */
+  table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.9rem; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  th { background: var(--table-head); color: var(--table-head-text); text-align: left; padding: 12px 16px; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+  th + th { border-left: 1px solid var(--border); }
+  td { padding: 12px 16px; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+  td + td { border-left: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg-card-hover); }
+
+  /* Cards */
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+  .card:hover { border-color: var(--border-hover); }
+  .card h3 { margin-top: 0; }
+
+  /* Tags */
+  .tag { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 500; }
+  .tag-mvp { background: var(--tag-mvp-bg); color: var(--tag-mvp-text); }
+  .tag-v2 { background: var(--tag-v2-bg); color: var(--tag-v2-text); }
+  .tag-planned { background: var(--tag-planned-bg); color: var(--tag-planned-text); }
+
+  /* Feature module */
+  .feature-module { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .feature-module h3 { color: var(--accent); margin-top: 0 !important; margin-bottom: 20px !important; }
+
+  /* Top-right controls */
+  .top-controls { position: fixed; top: 1rem; right: 1rem; z-index: 100; display: flex; gap: 0.5rem; }
+  .toggle-group { display: flex; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .lang-btn, .theme-btn { padding: 0.4rem 0.75rem; font-size: 0.8rem; cursor: pointer; border: none; background: transparent; color: var(--text-muted); transition: all 0.2s; }
+  .lang-btn.active, .theme-btn.active { background: var(--accent); color: white; }
+
+  /* Version banner */
+  .version-bar { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 2rem; font-size: 0.85rem; }
+
+  /* Mermaid diagram canvas */
+  .mermaid { background: transparent; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 1rem 0; width: 100%; }
+  .mermaid svg { width: 100% !important; max-width: 100%; height: auto !important; }
+
+  /* Placeholder */
+  .placeholder-box { background: var(--placeholder-bg); border: 2px dashed var(--placeholder-border); border-radius: 8px; height: 400px; display: flex; align-items: center; justify-content: center; color: var(--text-dim); }
+
+  /* Journey map */
+  .journey-steps-wrapper { position: relative; }
+  .journey-steps-wrapper::before { content: ''; position: absolute; left: 15px; top: 16px; bottom: 16px; width: 2px; background: var(--border); z-index: 0; }
+  .journey-step { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.75rem; position: relative; }
+  .journey-step:first-of-type { margin-top: 0.5rem; }
+  .journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--journey-num-bg); color: var(--journey-num-text); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; flex-shrink: 0; position: relative; z-index: 1; }
+
+  /* PRD Hub link in sidebar */
+  .prd-hub-link { display: block; padding: 0.4rem 0.75rem; font-size: 0.8rem; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .prd-hub-link:hover { color: var(--text); }
+  .toc-divider { height: 1px; background: var(--border); margin: 0.75rem 0; }
+
+  /* Hamburger button */
+  .hamburger { display: none; position: fixed; top: 16px; left: 16px; z-index: 1000; width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
+  .hamburger svg { width: 22px; height: 22px; color: var(--text-muted); }
+  .toc-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 149; }
+
+  /* Drawer-only controls */
+  .drawer-controls { display: none; }
+  .toc .toc-close { display: none; }
+
+  /* Mermaid scroll hint */
+  .mermaid-hint { display: none; }
+
+  /* Table scroll wrapper */
+  .table-scroll-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1.5rem; border-radius: 8px; border: 1px solid var(--border); }
+  .table-scroll-wrapper table { margin-bottom: 0; border: none; border-radius: 0; }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 768px) {
+    .hamburger { display: flex; }
+    .toc-overlay.show { display: block; }
+    .top-controls { display: none !important; }
+
+    .toc { display: block; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 150; width: 280px; background: var(--toc-bg); }
+    .toc.open { transform: translateX(0); }
+    .toc .toc-close { display: flex; position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-size: 1.4rem; line-height: 1; border-radius: 6px; align-items: center; justify-content: center; }
+    .toc .toc-close:hover { background: var(--bg-card-hover); }
+
+    .drawer-controls { display: flex; flex-direction: column; gap: 0.5rem; padding: 0 0.5rem; }
+    .drawer-controls .toggle-group { display: flex; width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .drawer-controls .theme-btn { flex: 1; padding: 0.5rem; font-size: 0.8rem; text-align: center; cursor: pointer; border: none; background: transparent; color: var(--text-muted); transition: all 0.2s; }
+    .drawer-controls .theme-btn.active { background: var(--accent); color: white; }
+
+    .main-content { margin-left: 0; }
+    .container { padding: 16px; padding-top: 72px; }
+
+    h1 { font-size: 2rem; text-align: center; }
+    h1 + p[style] { text-align: center !important; }
+    h2 { font-size: 1.25rem; margin-top: 28px; }
+    h3 { font-size: 1.1rem; }
+    p, li { font-size: 0.9rem; line-height: 1.7; }
+    section { margin-bottom: 48px; scroll-margin-top: 80px; }
+
+    .version-bar { flex-direction: column; gap: 0.4rem; align-items: flex-start; }
+
+    table.mobile-stack { display: block !important; white-space: normal !important; overflow: visible !important; min-width: 0 !important; padding: 4px 16px; }
+    table.mobile-stack tr { display: flex; flex-direction: column; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    table.mobile-stack tr:last-child { border-bottom: none; }
+    table.mobile-stack tr:hover td { background: transparent; }
+    table.mobile-stack th { background: none !important; border: none !important; color: var(--text-dim); font-size: 0.7rem; padding: 0 0 2px 0; text-transform: uppercase; white-space: normal; letter-spacing: 0.05em; }
+    table.mobile-stack td { border: none !important; padding: 0; font-size: 0.9rem; white-space: normal; color: var(--text-muted); }
+    table.mobile-stack th + th,
+    table.mobile-stack td + td { border-left: none !important; }
+
+    table.mobile-stack-cards { display: block !important; border: none !important; white-space: normal !important; overflow: visible !important; min-width: 0 !important; }
+    table.mobile-stack-cards tr:first-child { display: none !important; }
+    table.mobile-stack-cards tr { display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; }
+    table.mobile-stack-cards tr:hover td { background: transparent; }
+    table.mobile-stack-cards td { display: block; border: none !important; padding: 3px 0; white-space: normal; font-size: 0.9rem; }
+    table.mobile-stack-cards td::before { content: attr(data-label); display: block; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 1px; }
+    table.mobile-stack-cards td + td { border-left: none !important; }
+
+    .table-scroll-wrapper table { white-space: nowrap; min-width: 600px; }
+
+    .card { padding: 1rem; }
+    .feature-module { padding: 1rem; }
+
+    [style*="grid-template-columns"] { display: flex !important; flex-direction: column !important; gap: 1rem !important; }
+
+    .mermaid { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 12px; }
+    .mermaid svg { min-width: 500px; }
+    .mermaid-hint { display: block; font-size: 0.75rem; color: var(--text-dim); text-align: center; margin-top: -0.5rem; margin-bottom: 1rem; }
+
+    .placeholder-box { height: 200px; }
+
+    .journey-step { gap: 0.75rem; }
+    .journey-step .card { flex: 1; width: 100%; }
+
+    .tag { font-size: 0.7rem; padding: 2px 6px; white-space: nowrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hamburger Button (mobile only) -->
+<button class="hamburger" id="hamburger" aria-label="Open menu" onclick="toggleToc()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="toc-overlay" id="toc-overlay" onclick="closeToc()"></div>
+
+<!-- Desktop Top Controls -->
+<div class="top-controls">
+  <div class="toggle-group">
+    <button class="theme-btn" data-mode="light" onclick="setTheme('light')">Light</button>
+    <button class="theme-btn active" data-mode="auto" onclick="setTheme('auto')">Auto</button>
+    <button class="theme-btn" data-mode="dark" onclick="setTheme('dark')">Dark</button>
+  </div>
+</div>
+
+<!-- TOC Sidebar / Mobile Drawer -->
+<nav class="toc" id="toc">
+  <button class="toc-close" onclick="closeToc()" aria-label="Close menu">&times;</button>
+  <a href="../" class="prd-hub-link">← PRD Hub</a>
+  <div class="drawer-controls">
+    <div class="toggle-group">
+      <button class="theme-btn" data-mode="light" onclick="setTheme('light')">Light</button>
+      <button class="theme-btn active" data-mode="auto" onclick="setTheme('auto')">Auto</button>
+      <button class="theme-btn" data-mode="dark" onclick="setTheme('dark')">Dark</button>
+    </div>
+  </div>
+  <div class="toc-divider"></div>
+  <h3>Contents</h3>
+  <a href="#info">Project Info</a>
+  <a href="#background">1. Background</a>
+  <a href="#goals">2. Goals</a>
+  <a href="#users">3. Users & Scenarios</a>
+  <a href="#features">4. Feature List</a>
+  <a href="#detail">5. Detailed Design</a>
+  <a href="#flow">6. Business Flow</a>
+  <a href="#edge">7. Edge Cases</a>
+  <a href="#tracking">8. Analytics</a>
+  <a href="#roadmap">9. Roadmap</a>
+  <a href="#annex">10. Appendix</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+<div class="container">
+
+<!-- Version Bar -->
+<div class="version-bar">
+  <div>
+    <span style="color:var(--text-muted)">Version:</span>
+    <select style="background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:0.2rem 0.5rem;font-size:0.85rem;">
+      <option>v1.0 Discovery (Current)</option>
+    </select>
+  </div>
+  <div style="color:var(--text-dim);font-size:0.8rem;">
+    <span>Last updated: 2026-04-15</span>
+  </div>
+</div>
+
+<!-- Section: Project Info -->
+<section id="info">
+  <h1>Calbright Partnership Integration</h1>
+  <p style="font-size:1.15rem;color:var(--text-muted);margin-top:0.25rem;">Connecting partner services to the Staff Portal for holistic student support</p>
+
+  <table style="margin-top:1.5rem;">
+    <tr><th>Project Name</th><td>Calbright Partnership Integration</td></tr>
+    <tr><th>Product Owner</th><td>Wen Liu</td></tr>
+    <tr><th>Tech Stack</th><td>Staff Portal (existing) + Partner Service APIs (Career Connect, Timely Care, My Accommodate, Canvas LMS)</td></tr>
+    <tr><th>Current Version</th><td>v1.0 Discovery</td></tr>
+    <tr><th>Doc Status</th><td><span class="tag tag-planned">Discovery / Scoping</span></td></tr>
+  </table>
+
+  <h3 style="margin-top:1.5rem;">Version History</h3>
+  <table>
+    <tr>
+      <th>Version</th>
+      <th>Date</th>
+      <th>Changes</th>
+      <th>Author</th>
+    </tr>
+    <tr>
+      <td>v1.0</td><td>2026-04-15</td>
+      <td>Initial discovery PRD: problem definition, user scenarios, feature scoping</td>
+      <td>Wen Liu</td>
+    </tr>
+  </table>
+</section>
+
+<!-- Section 1: Background -->
+<section id="background">
+  <h2>1. Background &amp; Problem</h2>
+
+  <div class="card">
+    <h3>Current State</h3>
+    <p>Calbright College's Student Portal currently integrates four partner services: Career Connect (career services), Timely Care (wellness services), My Accommodate (accessibility services), and Canvas (LMS). Students can access these services directly from their portal. However, the Staff Portal has zero visibility into these partner services. When counselors, advisors, and enrollment staff interact with students through the Staff Portal, they cannot see whether a student is using partner services, what their status is, or take action to connect students with appropriate support.</p>
+  </div>
+
+  <div class="card">
+    <h3>Problems</h3>
+    <ul>
+      <li>Staff must leave the portal and log into each partner system separately to check student service status or create referrals</li>
+      <li>Counselors preparing for 1:1 sessions have no way to see if a student is actively using Career Connect, Timely Care, or has accommodation plans</li>
+      <li>The Intake Assessment surfaces risk levels (e.g., Personal Wellbeing score 75, Risk: High) but provides no direct referral path to partner services</li>
+      <li>Coordinating multi-service interventions for at-risk students (low attendance, poor progress) requires manual emails and phone calls across departments</li>
+      <li>Enrollment actions (Change Program, Drop/Withdraw) can inadvertently disrupt a student's active accommodation plan because staff have no visibility into My Accommodate</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Why Now</h3>
+    <ul>
+      <li>Student Portal partner integrations are already live — the API connections exist</li>
+      <li>Staff consistently report friction when coordinating across services</li>
+      <li>At-risk student intervention is a strategic priority for the college</li>
+      <li>The Staff Portal student detail page already contains the data framework (Intake Assessment, persistence tracking, attendance) to support intelligent partner service recommendations</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Section 2: Goals -->
+<section id="goals">
+  <h2>2. Goals &amp; Metrics</h2>
+  <table>
+    <tr>
+      <th>Goal Type</th>
+      <th>Description</th>
+      <th>Metric</th>
+      <th>Target</th>
+    </tr>
+    <tr>
+      <td>Efficiency</td>
+      <td>Reduce time staff spend switching between systems for partner service info</td>
+      <td>Average time to access partner service status</td>
+      <td>&lt; 30 seconds (from current 5-10 min)</td>
+    </tr>
+    <tr>
+      <td>Intervention</td>
+      <td>Increase partner service referral rate for high-risk students</td>
+      <td>% of High Risk Intake Assessment students referred to a partner service within 7 days</td>
+      <td>≥ 60%</td>
+    </tr>
+    <tr>
+      <td>Coordination</td>
+      <td>Enable multi-service intervention without manual cross-department coordination</td>
+      <td>% of at-risk interventions using coordinated plan (vs. individual referrals)</td>
+      <td>≥ 40%</td>
+    </tr>
+    <tr>
+      <td>Compliance</td>
+      <td>Prevent accommodation disruption during enrollment actions</td>
+      <td># of enrollment actions that proceed without accommodation awareness</td>
+      <td>0 (target)</td>
+    </tr>
+    <tr>
+      <td>Adoption</td>
+      <td>Staff adoption of partner service features in the portal</td>
+      <td>% of active counselors using Partner Services card weekly</td>
+      <td>≥ 70%</td>
+    </tr>
+  </table>
+</section>
+
+<!-- Section 3: Users & Scenarios -->
+<section id="users">
+  <h2>3. Users &amp; Scenarios</h2>
+
+  <div class="card">
+    <h3>Primary Users</h3>
+    <table>
+      <tr>
+        <th>Role</th>
+        <th>Description</th>
+        <th>Key Needs</th>
+      </tr>
+      <tr>
+        <td>Success Counselor</td>
+        <td>Assigned to students, conducts 1:1 sessions, manages persistence</td>
+        <td>See partner service status before sessions; create referrals; coordinate interventions</td>
+      </tr>
+      <tr>
+        <td>Enrollment Staff</td>
+        <td>Processes enrollment actions (program changes, drops, withdrawals)</td>
+        <td>Be alerted when enrollment actions may affect active accommodations</td>
+      </tr>
+      <tr>
+        <td>Academic Advisor</td>
+        <td>Monitors student progress, recommends workshops and resources</td>
+        <td>See workshop completion status; connect students to career services</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>User Scenario Flow</h3>
+  <div class="mermaid">
+flowchart TD
+  A[Staff opens student detail page] --> B[Views Partner Services card]
+  B --> C{Student at risk?}
+  C -->|Low risk| D[Monitor — no action needed]
+  C -->|High risk| E{Single issue or multiple?}
+  E -->|Single| F[Create individual referral from Intake Assessment]
+  E -->|Multiple| G[Create Coordinated Intervention Plan]
+  F --> H[Referral sent to partner service + logged]
+  G --> I[Multi-service referrals sent simultaneously]
+  H --> J[Activity feed updated]
+  I --> J
+  A --> K[Staff performs enrollment action]
+  K --> L{Active accommodation plan?}
+  L -->|No| M[Proceed normally]
+  L -->|Yes| N[Alert: Accommodation plan detected]
+  N --> O{Staff decision}
+  O -->|Notify accessibility| P[Proceed + notify office]
+  O -->|Skip notification| Q[Proceed without notification]
+  O -->|Cancel| R[Cancel enrollment action]
+  </div>
+</section>
+
+<!-- Section 4: Feature List -->
+<section id="features">
+  <h2>4. Feature List</h2>
+  <table>
+    <tr>
+      <th>Module</th>
+      <th>Feature</th>
+      <th>Priority</th>
+      <th>Status</th>
+    </tr>
+    <tr><td>Partner Visibility</td><td>Partner Services status card on student dashboard</td><td>P0</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Partner Visibility</td><td>Service detail drawer with activity history</td><td>P1</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Partner Visibility</td><td>"No Activity" warning for unreached services</td><td>P1</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Referral</td><td>One-click referral from Intake Assessment high-risk rows</td><td>P0</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Referral</td><td>Referral modal with service selection, notes, priority</td><td>P0</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Referral</td><td>Referral logging in activity feed</td><td>P0</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Intervention</td><td>Coordinated Intervention Plan creation</td><td>P1</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Intervention</td><td>Multi-service simultaneous referral</td><td>P1</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Intervention</td><td>Risk Indicators aggregation card</td><td>P1</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Accommodation</td><td>Accommodation alert on enrollment actions</td><td>P0</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Accommodation</td><td>Accessibility office notification option</td><td>P1</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+    <tr><td>Workshop Pipeline</td><td>Workshop completion → Career Connect recommendation</td><td>P2</td><td><span class="tag tag-planned">Planned</span></td></tr>
+    <tr><td>Workshop Pipeline</td><td>One-click approval for system recommendations</td><td>P2</td><td><span class="tag tag-planned">Planned</span></td></tr>
+    <tr><td>Activity Feed</td><td>Partner service events in student activity feed</td><td>P1</td><td><span class="tag tag-planned">Discovery</span></td></tr>
+  </table>
+</section>
+
+<!-- Section 5: Detailed Design -->
+<section id="detail">
+  <h2>5. Detailed Design</h2>
+
+  <!-- 5.1 Partner Services Card -->
+  <div class="feature-module">
+    <h3>5.1 Partner Services Card</h3>
+    <h4>Location</h4>
+    <p>Right column of student detail page, positioned above the existing Actions card.</p>
+
+    <h4>Display</h4>
+    <p>Four service rows showing:</p>
+    <ul>
+      <li>Service name and icon</li>
+      <li>Connection status badge (Active / No Activity / Active Plan / Enrolled)</li>
+      <li>Last activity date or description</li>
+      <li>"View" link to open detail drawer</li>
+    </ul>
+
+    <h4>Interaction</h4>
+    <p>Clicking "View" opens a right-side drawer panel (~400px) showing:</p>
+    <ul>
+      <li>Service header with status</li>
+      <li>Activity history (last 5 items with dates)</li>
+      <li>For services with "No Activity": warning message + "Send Recommendation" button</li>
+    </ul>
+
+    <h4>Sequence</h4>
+    <div class="mermaid">
+sequenceDiagram
+  participant Staff
+  participant Portal
+  participant PartnerAPI
+  Staff->>Portal: Opens student detail
+  Portal->>PartnerAPI: GET /status/{studentId}
+  PartnerAPI-->>Portal: Service statuses
+  Portal-->>Staff: Render Partner Services card
+  Staff->>Portal: Clicks "View" on Timely Care
+  Portal->>PartnerAPI: GET /activity/{studentId}/timelycare
+  PartnerAPI-->>Portal: Activity history
+  Portal-->>Staff: Opens detail drawer
+    </div>
+  </div>
+
+  <!-- 5.2 Intake Referral -->
+  <div class="feature-module">
+    <h3>5.2 Intake Assessment Referral</h3>
+    <h4>Location</h4>
+    <p>New "Actions" column added to the Intake Assessment table.</p>
+
+    <h4>Trigger</h4>
+    <p>"Refer" button appears on rows where Risk Level = High.</p>
+
+    <h4>Referral Modal Fields</h4>
+    <ul>
+      <li>Pre-filled: Category name, Risk Level, Score</li>
+      <li>Service selection dropdown: Career Connect, Timely Care, My Accommodate</li>
+      <li>Notes textarea (required)</li>
+      <li>Priority: Urgent / Normal (radio)</li>
+    </ul>
+
+    <h4>On Submit</h4>
+    <p>Referral sent to partner service API, logged in activity feed, confirmation shown.</p>
+  </div>
+
+  <!-- 5.3 Coordinated Intervention Plan -->
+  <div class="feature-module">
+    <h3>5.3 Coordinated Intervention Plan</h3>
+    <h4>Trigger</h4>
+    <p>"Create Intervention Plan" button in Risk Indicators card (appears when 2+ risk indicators are in critical range).</p>
+
+    <h4>Modal Content</h4>
+    <ul>
+      <li>Student risk summary (attendance, course progress, persistence status)</li>
+      <li>Service checklist with pre-suggested actions:
+        <ul>
+          <li>Timely Care — Wellness check-in</li>
+          <li>Career Connect — Career motivation session</li>
+          <li>Counselor — Schedule 1:1 appointment</li>
+          <li>My Accommodate — Review accommodation needs</li>
+        </ul>
+      </li>
+      <li>Overall notes textarea</li>
+    </ul>
+
+    <h4>On Submit</h4>
+    <p>Creates plan record, sends referrals to all checked services, single activity feed entry.</p>
+  </div>
+
+  <!-- 5.4 Accommodation Alert -->
+  <div class="feature-module">
+    <h3>5.4 Accommodation Alert</h3>
+    <h4>Trigger</h4>
+    <p>Staff clicks an enrollment action (Change Program, Drop/Withdraw, Extend Timeline) for a student with an active My Accommodate plan.</p>
+
+    <h4>Alert Modal</h4>
+    <ul>
+      <li>Warning icon</li>
+      <li>Title: "Active Accommodation Plan Detected"</li>
+      <li>Accommodation details (from My Accommodate API)</li>
+      <li>Three options:
+        <ul>
+          <li>Proceed &amp; Notify Accessibility Office</li>
+          <li>Proceed Without Notification</li>
+          <li>Cancel</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 5.5 Workshop → Career Recommendation -->
+  <div class="feature-module">
+    <h3>5.5 Workshop → Career Recommendation</h3>
+    <h4>Trigger</h4>
+    <p>Workshop status changes to "Completed."</p>
+
+    <h4>Display</h4>
+    <p>Info banner in Workshops card with recommendation text and "Approve &amp; Send to Career Connect" button.</p>
+
+    <h4>On Approval</h4>
+    <p>Referral created, banner replaced with confirmation.</p>
+  </div>
+</section>
+
+<!-- Section 6: Business Flow -->
+<section id="flow">
+  <h2>6. Business Flow</h2>
+  <div class="mermaid">
+flowchart TD
+  A[Staff views student dashboard] --> B{Intake Assessment Risk?}
+  B -->|High Risk row| C[Click Refer button]
+  C --> D[Referral Modal opens]
+  D --> E[Select service + add notes]
+  E --> F[Submit referral]
+  F --> G[API call to partner service]
+  G --> H[Log in activity feed]
+  H --> I[Success confirmation]
+  A --> J{Multiple risk indicators?}
+  J -->|Yes| K[Click Create Intervention Plan]
+  K --> L[Select services + add notes]
+  L --> M[Submit plan]
+  M --> N[Batch API calls to services]
+  N --> H
+  A --> O[Staff clicks enrollment action]
+  O --> P{Active accommodation?}
+  P -->|Yes| Q[Alert modal shown]
+  Q --> R{Decision}
+  R -->|Notify| S[Proceed + notify accessibility]
+  R -->|Skip| T[Proceed without notification]
+  R -->|Cancel| U[Cancel action]
+  P -->|No| V[Proceed normally]
+  </div>
+</section>
+
+<!-- Section 7: Edge Cases -->
+<section id="edge">
+  <h2>7. Edge Cases &amp; Error Handling</h2>
+  <table>
+    <tr>
+      <th>Scenario</th>
+      <th>Handling</th>
+    </tr>
+    <tr><td>Partner service API is unavailable</td><td>Show "Service temporarily unavailable" in Partner Services card; disable referral to that service</td></tr>
+    <tr><td>Student has no Intake Assessment</td><td>Hide Referral buttons; Partner Services card still shows status</td></tr>
+    <tr><td>Referral submission fails</td><td>Show error message with retry option; do not log in activity feed until confirmed</td></tr>
+    <tr><td>Student has no active accommodation plan</td><td>Enrollment actions proceed without alert (normal behavior)</td></tr>
+    <tr><td>Staff tries to refer to a service student is already active in</td><td>Show info: "Student is already active in [service]. Proceed anyway?" with confirm/cancel</td></tr>
+    <tr><td>Concurrent referrals from multiple staff</td><td>Last-write-wins with notification to other staff members</td></tr>
+    <tr><td>Partner service returns partial data</td><td>Display available fields; show "Some data unavailable" for missing fields</td></tr>
+  </table>
+</section>
+
+<!-- Section 8: Analytics -->
+<section id="tracking">
+  <h2>8. Data &amp; Analytics</h2>
+  <table>
+    <tr>
+      <th>Event</th>
+      <th>Properties</th>
+      <th>Purpose</th>
+    </tr>
+    <tr><td class="mono">partner_card_viewed</td><td>student_id, staff_id</td><td>Track adoption of Partner Services card</td></tr>
+    <tr><td class="mono">service_detail_opened</td><td>student_id, service_name</td><td>Measure which services staff check most</td></tr>
+    <tr><td class="mono">referral_created</td><td>student_id, service_name, risk_level, priority</td><td>Track referral volume and patterns</td></tr>
+    <tr><td class="mono">intervention_plan_created</td><td>student_id, services_selected[], risk_indicators</td><td>Measure coordinated intervention adoption</td></tr>
+    <tr><td class="mono">accommodation_alert_shown</td><td>student_id, accommodation_types[]</td><td>Track how often alerts are triggered</td></tr>
+    <tr><td class="mono">accommodation_alert_action</td><td>student_id, action (notify/skip/cancel)</td><td>Measure staff response to alerts</td></tr>
+    <tr><td class="mono">workshop_recommendation_approved</td><td>student_id, workshop_name, target_service</td><td>Track pipeline conversion rate</td></tr>
+  </table>
+</section>
+
+<!-- Section 9: Roadmap -->
+<section id="roadmap">
+  <h2>9. Roadmap</h2>
+
+  <div class="card">
+    <h3>Phase 1: Discovery &amp; Scoping (Current — April 2026)</h3>
+    <ul>
+      <li>Problem definition and user scenario mapping</li>
+      <li>Stakeholder alignment with Director of PM</li>
+      <li>Interactive prototype for review</li>
+      <li>User story documentation</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Phase 2: Design (May 2026)</h3>
+    <ul>
+      <li>High-fidelity designs in Adobe XD</li>
+      <li>Usability testing with 3-5 counselors</li>
+      <li>API integration requirements defined with each partner service</li>
+      <li>Scope finalization for MVP</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Phase 3: MVP Development (June-July 2026)</h3>
+    <ul>
+      <li>P0 features: Partner Services card, Intake Referral, Accommodation Alert</li>
+      <li>Partner service API integration (read-only status + write referrals)</li>
+      <li>Staff beta testing</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Phase 4: Iteration (August 2026+)</h3>
+    <ul>
+      <li>P1 features: Coordinated Intervention Plan, Service Detail drawer</li>
+      <li>P2 features: Workshop → Career pipeline</li>
+      <li>Data analytics dashboard for leadership</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Section 10: Appendix -->
+<section id="annex">
+  <h2>10. Appendix</h2>
+
+  <div class="card">
+    <h3>Partner Service APIs</h3>
+    <table>
+      <tr>
+        <th>Service</th>
+        <th>Type</th>
+        <th>Capabilities Needed</th>
+      </tr>
+      <tr><td>Career Connect</td><td>REST API (TBD)</td><td>Read: student status, session history. Write: create referral</td></tr>
+      <tr><td>Timely Care</td><td>REST API (TBD)</td><td>Read: access status, session count. Write: create referral</td></tr>
+      <tr><td>My Accommodate</td><td>REST API (TBD)</td><td>Read: active plan, accommodation details. Write: notification</td></tr>
+      <tr><td>Canvas LMS</td><td>Canvas REST API</td><td>Read: enrollment status, course progress, grades</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Related Documents</h3>
+    <ul>
+      <li>Partnership Integration User Stories (link TBD)</li>
+      <li>Staff Portal Design System (Calbright internal)</li>
+      <li>Interactive Prototype (link TBD)</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script>
+// === TOC active state ===
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.toc a[href^="#"]').forEach(function(a) { a.classList.remove('active'); });
+      var link = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+document.querySelectorAll('section[id]').forEach(function(s) { observer.observe(s); });
+
+// === Mermaid theme configs ===
+var darkMermaid = {
+  primaryColor: '#1e293b', primaryTextColor: '#e2e8f0', primaryBorderColor: '#475569',
+  lineColor: '#64748b', secondaryColor: '#1e293b', tertiaryColor: '#0f172a',
+  background: '#0f172a', mainBkg: '#1e293b', nodeBorder: '#475569', nodeTextColor: '#e2e8f0',
+  clusterBkg: '#0f172a', clusterBorder: '#334155', titleColor: '#e2e8f0',
+  edgeLabelBackground: '#1a2236',
+  actorTextColor: '#e2e8f0', actorBkg: '#1e293b', actorBorder: '#475569', actorLineColor: '#475569',
+  signalColor: '#64748b', signalTextColor: '#cbd5e1',
+  labelBoxBkgColor: '#1a2236', labelBoxBorderColor: '#334155', labelTextColor: '#cbd5e1',
+  loopTextColor: '#cbd5e1',
+  noteBkgColor: '#1e293b', noteTextColor: '#cbd5e1', noteBorderColor: '#475569',
+  attributeBackgroundColorOdd: '#1a2236', attributeBackgroundColorEven: '#0f172a',
+  entityBorder: '#475569', entityBkg: '#1a2236', entityTitleBkg: '#1e293b',
+  fontSize: '14px'
+};
+var lightMermaid = {
+  primaryColor: '#e2e8f0', primaryTextColor: '#1e293b', primaryBorderColor: '#cbd5e1',
+  lineColor: '#94a3b8', secondaryColor: '#f1f5f9', tertiaryColor: '#f8fafc',
+  background: '#f8fafc', mainBkg: '#e2e8f0', nodeBorder: '#cbd5e1', nodeTextColor: '#1e293b',
+  clusterBkg: '#f1f5f9', clusterBorder: '#e2e8f0', titleColor: '#1e293b',
+  edgeLabelBackground: '#f8fafc',
+  actorTextColor: '#1e293b', actorBkg: '#e2e8f0', actorBorder: '#cbd5e1', actorLineColor: '#cbd5e1',
+  signalColor: '#64748b', signalTextColor: '#334155',
+  labelBoxBkgColor: '#fff', labelBoxBorderColor: '#e2e8f0', labelTextColor: '#334155',
+  loopTextColor: '#334155',
+  noteBkgColor: '#f1f5f9', noteTextColor: '#334155', noteBorderColor: '#cbd5e1',
+  attributeBackgroundColorOdd: '#f1f5f9', attributeBackgroundColorEven: '#fff',
+  entityBorder: '#cbd5e1', entityBkg: '#fff', entityTitleBkg: '#e2e8f0',
+  fontSize: '14px'
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.mermaid').forEach(function(el) {
+    if (!el.getAttribute('data-source')) el.setAttribute('data-source', el.textContent.trim());
+  });
+});
+
+function getIsDark(mode) {
+  if (mode === 'dark') return true;
+  if (mode === 'light') return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function renderMermaid(isDark) {
+  var vars = isDark ? darkMermaid : lightMermaid;
+  mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: vars });
+  document.querySelectorAll('.mermaid').forEach(function(el) {
+    var src = el.getAttribute('data-source');
+    if (src) { el.removeAttribute('data-processed'); el.textContent = src; }
+  });
+  mermaid.run();
+}
+
+// === Theme toggle ===
+function setTheme(mode) {
+  document.querySelectorAll('.theme-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  document.documentElement.removeAttribute('data-theme');
+  if (mode === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  else if (mode === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  renderMermaid(getIsDark(mode));
+}
+
+// === Init ===
+var savedTheme = 'auto';
+mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: getIsDark(savedTheme) ? darkMermaid : lightMermaid });
+
+document.addEventListener('DOMContentLoaded', function() {
+  setTheme(savedTheme);
+  setupMobileTables();
+  setTimeout(addMermaidHints, 1200);
+});
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+  renderMermaid(window.matchMedia('(prefers-color-scheme: dark)').matches);
+});
+
+// === Hamburger drawer ===
+function toggleToc() {
+  document.getElementById('toc').classList.toggle('open');
+  document.getElementById('toc-overlay').classList.toggle('show');
+  document.getElementById('hamburger').style.display = 'none';
+}
+function closeToc() {
+  document.getElementById('toc').classList.remove('open');
+  document.getElementById('toc-overlay').classList.remove('show');
+  if (window.innerWidth <= 768) document.getElementById('hamburger').style.display = 'flex';
+}
+document.querySelectorAll('.toc a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', closeToc);
+});
+
+// === Mobile table adaptation ===
+function setupMobileTables() {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('table').forEach(function(table) {
+    if (table.dataset.mobileProcessed) return;
+    table.dataset.mobileProcessed = 'true';
+    var rows = Array.from(table.querySelectorAll('tr'));
+    if (rows.length === 0) return;
+    var colCount = rows[0].children.length;
+
+    var isKV = (colCount === 2);
+    if (isKV) {
+      for (var i = 0; i < rows.length; i++) {
+        if (rows[i].children.length !== 2 || rows[i].children[0].tagName !== 'TH') { isKV = false; break; }
+      }
+    }
+    if (isKV) { table.classList.add('mobile-stack'); return; }
+
+    var headerRow = null, dataRows = [];
+    rows.forEach(function(tr) {
+      var ths = tr.querySelectorAll('th');
+      if (ths.length === tr.children.length && ths.length > 0 && !headerRow) headerRow = tr;
+      else dataRows.push(tr);
+    });
+
+    if (headerRow && colCount >= 3 && dataRows.length <= 2) {
+      var headers = [];
+      headerRow.querySelectorAll('th').forEach(function(th) { headers.push(th.textContent.trim()); });
+      dataRows.forEach(function(tr) {
+        Array.from(tr.querySelectorAll('td')).forEach(function(td, i) {
+          if (headers[i]) td.setAttribute('data-label', headers[i]);
+        });
+      });
+      table.classList.add('mobile-stack-cards');
+      return;
+    }
+
+    if (colCount >= 3 && !table.closest('.table-scroll-wrapper')) {
+      var wrapper = document.createElement('div');
+      wrapper.className = 'table-scroll-wrapper';
+      table.parentNode.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+      table.style.minWidth = '600px';
+    }
+  });
+}
+
+// === Mermaid scroll hints ===
+function addMermaidHints() {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('.mermaid').forEach(function(el) {
+    if (el.nextElementSibling && el.nextElementSibling.classList.contains('mermaid-hint')) return;
+    var hint = document.createElement('p');
+    hint.className = 'mermaid-hint';
+    hint.textContent = '← Swipe to view full diagram';
+    el.parentNode.insertBefore(hint, el.nextSibling);
+  });
+}
+</script>
+
+</body>
+</html>
