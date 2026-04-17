@@ -307,10 +307,18 @@
   <div class="card">
     <h3 data-zh="现状问题" data-en="Current Problems">现状问题</h3>
     <ul>
-      <li data-zh="<strong>机会分散</strong> — Partner opportunities 通过邮件、Slack、电话零散进来，staff 用个人表格追踪，经常忘记哪些还有效。" data-en="<strong>Scattered Opportunities</strong> — Partner opportunities arrive through email, Slack, and phone calls. Staff tracks openings in personal spreadsheets and forgets which are still live."><strong>机会分散</strong> — Partner opportunities 通过邮件、Slack、电话零散进来，staff 用个人表格追踪，经常忘记哪些还有效。</li>
-      <li data-zh="<strong>无 readiness 信号</strong> — Counselor 没法一眼看出哪些学生真的到了推荐时机，判断全在脑子里，不在数据里。" data-en="<strong>No Readiness Signal</strong> — Counselors can't tell at a glance which students are actually ready for referrals. Judgment lives in counselors' heads, not in data."><strong>无 readiness 信号</strong> — Counselor 没法一眼看出哪些学生真的到了推荐时机，判断全在脑子里，不在数据里。</li>
-      <li data-zh="<strong>referral 黑洞</strong> — 学生被推荐后结果是黑洞，面了吗？拿 offer 了吗？没系统记录。" data-en="<strong>Lost Referrals</strong> — Once a student is referred, the outcome is a black hole. Did they interview? Did they get an offer? No system of record."><strong>referral 黑洞</strong> — 学生被推荐后结果是黑洞，面了吗？拿 offer 了吗？没系统记录。</li>
-      <li data-zh="<strong>cohort 混乱</strong> — 像 CHW + AlliedUP 这种深度合作需要一次匹配 20 个学生，今天只能靠表格、群邮件和祈祷。" data-en="<strong>Cohort Chaos</strong> — Deep partnerships like CHW + AlliedUP need 20 students matched at once. Today this is a spreadsheet, a group email, and a prayer."><strong>cohort 混乱</strong> — 像 CHW + AlliedUP 这种深度合作需要一次匹配 20 个学生，今天只能靠表格、群邮件和祈祷。</li>
+      <li>
+        <strong data-zh="机会分散" data-en="Scattered Opportunities">机会分散</strong><span data-zh=" — Partner opportunities 通过邮件、Slack、电话零散进来，staff 用个人表格追踪，经常忘记哪些还有效。" data-en=" — Partner opportunities arrive through email, Slack, and phone calls. Staff tracks openings in personal spreadsheets and forgets which are still live."> — Partner opportunities 通过邮件、Slack、电话零散进来，staff 用个人表格追踪，经常忘记哪些还有效。</span>
+      </li>
+      <li>
+        <strong data-zh="无 readiness 信号" data-en="No Readiness Signal">无 readiness 信号</strong><span data-zh=" — Counselor 没法一眼看出哪些学生真的到了推荐时机，判断全在脑子里，不在数据里。" data-en=" — Counselors can't tell at a glance which students are actually ready for referrals. Judgment lives in counselors' heads, not in data."> — Counselor 没法一眼看出哪些学生真的到了推荐时机，判断全在脑子里，不在数据里。</span>
+      </li>
+      <li>
+        <strong data-zh="referral 黑洞" data-en="Lost Referrals">referral 黑洞</strong><span data-zh=" — 学生被推荐后结果是黑洞，面了吗？拿 offer 了吗？没系统记录。" data-en=" — Once a student is referred, the outcome is a black hole. Did they interview? Did they get an offer? No system of record."> — 学生被推荐后结果是黑洞，面了吗？拿 offer 了吗？没系统记录。</span>
+      </li>
+      <li>
+        <strong data-zh="cohort 混乱" data-en="Cohort Chaos">cohort 混乱</strong><span data-zh=" — 像 CHW + AlliedUP 这种深度合作需要一次匹配 20 个学生，今天只能靠表格、群邮件和祈祷。" data-en=" — Deep partnerships like CHW + AlliedUP need 20 students matched at once. Today this is a spreadsheet, a group email, and a prayer."> — 像 CHW + AlliedUP 这种深度合作需要一次匹配 20 个学生，今天只能靠表格、群邮件和祈祷。</span>
+      </li>
     </ul>
   </div>
 
@@ -440,14 +448,14 @@
   <h3 data-zh="用户旅程图 (User Journey Map)" data-en="User Journey Map">用户旅程图 (User Journey Map)</h3>
 
   <div class="mermaid">
-flowchart LR
-  A["学生完成 program 节点<br/>Student hits program milestone"] --> B["系统自动更新 Readiness Score<br/>System auto-updates Readiness Score"]
-  B --> C["Staff 在 Career Partnership Card<br/>看到推荐机会<br/>Staff sees opportunities in card"]
-  C --> D["选匹配 partner，一键 referral<br/>Pick matched partner, one-click refer"]
-  D --> E["Partner 邮件反馈<br/>Partner responds via email"]
-  E --> F["Staff 回填 status<br/>Staff updates status"]
-  F --> G["Offer Accepted →<br/>提示 staff 通知学生<br/>Prompt staff to notify student"]
-  G --> H["数据沉淀到<br/>Partner Performance Dashboard<br/>Data flows to dashboard"]
+flowchart TD
+  A["Student hits program milestone"] --> B["System auto-updates Readiness Score"]
+  B --> C["Staff sees opportunities in Career Partnership Card"]
+  C --> D["Pick matched partner, one-click refer"]
+  D --> E["Partner responds via email"]
+  E --> F["Staff updates status"]
+  F --> G["Offer Accepted → Prompt staff to notify student"]
+  G --> H["Data flows to Partner Performance Dashboard"]
   </div>
 </section>
 
@@ -494,16 +502,16 @@ flowchart LR
     <h4 data-zh="交互流程" data-en="Interaction Flow">交互流程</h4>
     <div class="mermaid">
 flowchart TD
-  A["Staff 点 New Opportunity"] --> B{"选 Tier"}
+  A["Staff clicks<br/>New Opportunity"] --> B{"Pick Tier"}
   B -->|L1| C1["L1: Duration + Stipend<br/>+ Course-credit"]
   B -->|L2| C2["L2: Salary Range +<br/>Employment Type + Start Date"]
   B -->|L3| C3["L3: Cohort Size + Wage +<br/>WIOA funded + Sponsor + Commitment"]
-  C1 --> D["填通用字段<br/>Partner / Role / Program / Location / Deadline"]
+  C1 --> D["Fill common fields<br/>Partner / Role / Program / Location / Deadline"]
   C2 --> D
   C3 --> D
-  D --> E["保存"]
-  E --> F["系统计算匹配学生池"]
-  F --> G["出现在对应 Tab"]
+  D --> E["Save"]
+  E --> F["System computes<br/>matched student pool"]
+  F --> G["Appears in matching Tab"]
     </div>
     <h4 data-zh="规则" data-en="Rules">规则</h4>
     <ul>
@@ -584,17 +592,17 @@ stateDiagram-v2
     <div class="mermaid">
 flowchart TD
   A["L3 Opportunity"] --> B["Start Cohort Matching"]
-  B --> C["候选池<br/>按 program + readiness 过滤"]
-  C --> D["按 Readiness Score 降序展示"]
-  D --> E{"Staff 操作"}
-  E -->|勾选/去选| F["手动调整"]
-  E -->|Auto-fill to target| G["自动填满目标数"]
-  F --> H{"非自动候选?"}
+  B --> C["Candidate pool<br/>filtered by program + readiness"]
+  C --> D["Sorted by Readiness Score desc"]
+  D --> E{"Staff action"}
+  E -->|Check / Uncheck| F["Manual adjust"]
+  E -->|Auto-fill to target| G["Auto-fill to target count"]
+  F --> H{"Non-auto candidate?"}
   G --> H
-  H -->|是| I["填 20+ 字符说明"]
-  H -->|否| J["锁定候选"]
+  H -->|Yes| I["Fill 20+ char justification"]
+  H -->|No| J["Lock candidate"]
   I --> J
-  J --> K["Submit Cohort Referral<br/>1 父 + N 子记录"]
+  J --> K["Submit Cohort Referral<br/>1 parent + N child records"]
     </div>
     <h4 data-zh="规则" data-en="Rules">规则</h4>
     <ul>
@@ -734,18 +742,18 @@ erDiagram
   <h3 data-zh="核心用户主线流程（Staff 一日路径）" data-en="Core User Flow (A Day in Staff's Work)">核心用户主线流程（Staff 一日路径）</h3>
   <div class="mermaid">
 flowchart TD
-  START([Staff 登录 Staff Portal]) --> HUB[打开 Partnership Hub]
-  HUB --> REF{Referral Mgmt<br/>有 stale 吗?}
-  REF -->|是| STALE[先处理 &gt; 14 天未更新的]
-  REF -->|否| STUDENT[打开具体学生 profile]
+  START([Staff logs into Staff Portal]) --> HUB[Open Partnership Hub]
+  HUB --> REF{Referral Mgmt<br/>Any stale items?}
+  REF -->|Yes| STALE[Handle &gt; 14 day<br/>un-updated items first]
+  REF -->|No| STUDENT[Open specific student profile]
   STALE --> STUDENT
-  STUDENT --> READY{Readiness Score<br/>达到阈值?}
-  READY -->|是| MATCH[查看 matched opportunities]
-  READY -->|否| RATE[设置 Counselor Confidence]
+  STUDENT --> READY{Readiness Score<br/>hits threshold?}
+  READY -->|Yes| MATCH[View matched opportunities]
+  READY -->|No| RATE[Set Counselor Confidence]
   RATE --> MATCH
-  MATCH --> REFER[一键 Refer 学生给 partner]
-  REFER --> LATER[稍后回填 Status]
-  LATER --> DASH[数据沉淀到 Partner Performance]
+  MATCH --> REFER[One-click refer student to partner]
+  REFER --> LATER[Update Status later]
+  LATER --> DASH[Data flows to Partner Performance]
   </div>
 
   <h3 data-zh="数据流（Readiness Score 计算）" data-en="Data Flow (Readiness Score Pipeline)">数据流（Readiness Score 计算）</h3>
@@ -981,7 +989,7 @@ function getIsDark(mode) {
 
 function renderMermaid(isDark) {
   var vars = isDark ? darkMermaid : lightMermaid;
-  mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: vars });
+  mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: vars, securityLevel: 'loose', flowchart: { htmlLabels: true, useMaxWidth: true } });
   document.querySelectorAll('.mermaid').forEach(function(el) {
     var src = el.getAttribute('data-source');
     if (src) { el.removeAttribute('data-processed'); el.textContent = src; }
@@ -1002,7 +1010,7 @@ function setTheme(mode) {
 
 // === Init ===
 var savedTheme = 'auto';
-mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: getIsDark(savedTheme) ? darkMermaid : lightMermaid });
+mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: getIsDark(savedTheme) ? darkMermaid : lightMermaid, securityLevel: 'loose', flowchart: { htmlLabels: true, useMaxWidth: true } });
 
 document.addEventListener('DOMContentLoaded', function() {
   setTheme(savedTheme);
