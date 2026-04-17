@@ -93,8 +93,8 @@
     </div>
   </a>
 
-  <a class="project-card" data-path="calbright-partnership/prd_v1.0.html">
-    <div class="project-name">Calbright Partnership</div>
+  <a class="project-card" data-path="calbright-career-partnership/prd_v1.0.html">
+    <div class="project-name">Calbright Career Partnership</div>
     <div class="project-desc">Staff Portal Career Partnership Hub — Internship / Full-time / Apprenticeship 统一管理</div>
     <div class="project-meta">
       <span class="tag tag-active">v1.0</span>
@@ -124,8 +124,9 @@ function setTheme(mode) {
 }
 // Always default to auto (follows system)
 setTheme('auto');
-// Set card hrefs based on current base path
-var base = window.location.pathname.replace(/\/+$/, '');
+// Set card hrefs based on current base path. Strip trailing filename (e.g. /index.html) so that
+// opening the hub via file:// or /prd/index.html still resolves siblings correctly.
+var base = window.location.pathname.replace(/\/[^\/]*\.[^\/]*$/, '').replace(/\/+$/, '');
 document.querySelectorAll('[data-path]').forEach(function(el) {
   el.href = base + '/' + el.getAttribute('data-path');
 });
